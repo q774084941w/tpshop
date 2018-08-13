@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link href="http://www.tpshop.com/static/css/shop.css" type="text/css" rel="stylesheet" />
+<link href="http://www.tpshop.com/static/css/Sellerber.css" type="text/css"  rel="stylesheet" />
+<link href="http://www.tpshop.com/static/css/bkg_ui.css" type="text/css"  rel="stylesheet" />
+<link href="http://www.tpshop.com/static/font/css/font-awesome.min.css"  rel="stylesheet" type="text/css" />
+<script src="http://www.tpshop.com/static/js/jquery-1.9.1.min.js" type="text/javascript" ></script>
+<script type="text/javascript" src="http://www.tpshop.com/static/js/jquery.nestable.min.js"></script>
+<script src="http://www.tpshop.com/static/js/jquery.SuperSlide.2.1.1.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/js/jquery.dataTables.min.js"></script>
+<script src="http://www.tpshop.com/static/js/jquery.dataTables.bootstrap.js"></script>
+<script src="http://www.tpshop.com/static/js/layer/layer.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/js/jquery.nicescroll.js" type="text/javascript"></script>
+<!--[if lt IE 9]>
+<script src="http://www.tpshop.com/static/js/html5shiv.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/js/respond.min.js"></script>
+<script src="http://www.tpshop.com/static/js/css3-mediaqueries.js"  type="text/javascript"></script>
+  <![endif]-->
+<title>栏目</title>
+</head>
+<body>
+<div class="margin" id="page_style">
+<div class="operation">
+<button class="btn button_btn btn-danger" type="button" onclick=""><i class="fa fa-trash-o"></i>&nbsp;删除</button>
+<span class="submenu"><a href="http://www.tpshop.com/admin/Columns/add"  class="btn button_btn bg-deep-blue" title="添加栏目" id="qianja"><i class="fa  fa-edit"></i>&nbsp;添加栏目</a></span>
+</div>
+<div class="Columns_list slideBox margin-top" >
+<div class="hd">
+  <ul>
+   <li>导航栏目</li>
+  </ul>
+  </div>
+  <div class="bd">
+  <ul class="main_column">
+<table class="table table_list table_striped table-bordered  margin-top">
+  <thead>
+
+  <tr>
+      <th>栏目名称</th>
+      <th >链接地址</th>
+      <th >状态</th>
+      <th >操作</th>
+   </tr>   
+  </thead>
+       <tbody>
+      {volist name="re" id="re"}
+      <td><input type="text" value="{$re.nav_id}" style="display: none"/></td>
+       <tr style=" padding: 5px 10px;line-height: 23px;border: 1px solid #ddd; vertical-align: middle; border-top: 1px solid #dddddd; color: #666;">
+        <td style="border: 1px solid #ddd;" > {$re.nav_name}</td>
+        <td style="border: 1px solid #ddd;" >{$re.nav_site}</td>
+           <td style="border: 1px solid #ddd;"   >
+               {if($re.nav_show==1)}
+               <input type="text" value="{$re.nav_id}" style="display: none"/><input type="checkbox" value="None" id="nav_show" name="check" checked />
+               {else /}
+               <input type="text" value="{$re.nav_id}" style="display: none"/><input type="checkbox" value="None" name="check"/>
+               {/if}
+           </td>
+        <td style="border: 1px solid #ddd;"   class="operating">
+             <input type="text" value="{$re.nav_id}" style="display: none"/><button class="btn btn-white button_b"  type="button">删除</button>
+            <input type="text" value="{$re.nav_id}" style="display: none"/> <button class="btn btn-white button_btn "  type="button">修改</button>
+        </td>
+        </tr>
+       {/volist}
+        </tbody>
+       </table>
+  </ul>
+ </div>
+</div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+
+jQuery(function($){			
+	$('.dd').nestable();							
+    $('.dd-handle a').on('mousedown', function(e){
+		e.stopPropagation();
+	});
+});
+$(".button_btn").click(function(){
+    var id = $(this).prev().val();
+    layer.open({
+        type: 2,
+        area: ['1100px', '400px'],
+        title: '修改栏目',
+        shade: 0.6,
+        anim: 2,
+        content: 'http://www.tpshop.com/Admin/Columns/updata_ify/?Id='+id,
+        cancel: function () {
+            //右上角关闭回调
+        }
+    })
+});
+
+/**栏目删除**/
+
+$(".button_b").click(function () {
+    var id = $(this).prev().val();
+    layer.confirm('您确定删除么？', {
+        btn: ['删除','取消'] //按钮
+    }, function(){
+        $.ajax({
+            url:"http://www.tpshop.com/admin/Columns/del",
+            type:'POST',
+            async:true,
+            data:{
+                'nav_id':id
+            },
+            timeout:5000,
+            dataType:'json',
+            success:function (data) {
+                console.log(data);
+                if(data.sess==1){
+                    layer.alert(data.msg,{
+                        btn: ['刷新页面'] //按钮
+                    }, function(){
+                        window.location.reload();
+                    });
+                }else {
+                    layer.alert(data.mess);
+                }
+            }
+        });
+    });
+});
+
+
+//修改状态
+    $("input[name='check']").click(function () {
+        if($(this).is(':checked')){
+            $.ajax({
+                url:"http://www.tpshop.com/Admin/Columns/checkec",
+                type:'POST',
+                async:true,
+                data:{
+                    'nav_id':$(this).prev().val()
+                },
+                timeout:5000,
+                dataType:'json',
+                success:function (data) {
+
+                }
+            });
+        }else {
+            $.ajax({
+                url:"http://www.tpshop.com/Admin/Columns/checes",
+                type:'POST',
+                async:true,
+                data:{
+                    'nav_id':$(this).prev().val()
+                },
+                timeout:5000,
+                dataType:'json',
+                success:function (data) {
+
+                }
+            });
+        }
+    });
+
+$("body").niceScroll({
+	cursorcolor:"#888888",
+	cursoropacitymax:1,
+	touchbehavior:false,
+	cursorwidth:"5px",
+	cursorborder:"0",
+	cursorborderradius:"5px"
+});
+
+</script>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="__CSS__/shop.css" type="text/css" rel="stylesheet" />
+<link href="__CSS__/Sellerber.css" type="text/css"  rel="stylesheet" />
+<link href="__CSS__/bkg_ui.css" type="text/css"  rel="stylesheet" />
+<link href="__STATIC__/font/css/font-awesome.min.css"  rel="stylesheet" type="text/css" />
+<script src="__JS__/jquery-1.9.1.min.js" type="text/javascript" ></script>
+    <script src="__JS__/Sellerber.js" type="text/javascript"></script>
+    <script src="__JS__/layer/layer.js" type="text/javascript"></script>
+<title>添加管理员</title>
+</head>
+<body>
+<div class="margin add_administrator" id="page_style">
+    <div class="add_style add_administrator_style">
+    <div class="title_name">添加管理员</div>
+    <form id="myform" enctype="multipart/form-data" method="post">
+    <ul>
+     <li class="clearfix">
+     <label class="label_name col-xs-2 col-lg-2"><i>*</i>用户名：</label>
+     <div class="formControls col-xs-6">
+     <input type="text" class="input-text col-xs-12" name="ad_name" datatype="*2-16">
+     </div>
+    <div class="col-4">
+        <span class="Validform_checktip"></span>
+    </div>
+     </li>
+        <li class="clearfix">
+     <label class="label_name col-xs-2 col-lg-2"><i>*</i>昵称：</label>
+     <div class="formControls col-xs-6">
+         <input type="text" class="input-text col-xs-12" name="da_name">
+     </div>
+    <div class="col-4"> <span class="Validform_checktip"></span></div>
+     </li>
+     <li class="clearfix">
+     <label class="label_name col-xs-2 col-lg-2">
+         <i class="c-red">*</i>初始密码：</label>
+	 <div class="formControls col-xs-6">
+	 <input type="password" placeholder="密码" name="pass" autocomplete="off"  class="input-text col-xs-12" datatype="*6-20" id="pass">
+	</div>
+     <div class="col-4">
+         <span class="Validform_checktip"></span>
+     </div>
+     </li>
+     <li class="clearfix">
+       <label class="label_name col-xs-2 col-lg-2"><i class="c-red">*</i>确认密码：</label>
+       <div class="formControls  col-xs-6">
+	<input type="password" placeholder="确认新密码" class="input-text Validform_error  col-xs-12"  id="newpass" name="newpass">
+	</div>
+	  <div class="col-4"> <span class="Validform_checktip"></span></div>
+     </li>
+     <li class="clearfix">
+      <label class="label_name col-xs-2 col-lg-2">
+          <i class="c-red">*</i>性&nbsp;别：</label>
+      <div class="formControls  skin-minimal col-xs-6">
+		    <label>
+                <input name="da_sex" type="radio" value="保密" class="ace" checked="checked">
+                <span class="lbl">保密</span>
+            </label>&nbsp;&nbsp;
+            <label>
+                <input name="da_sex" type="radio" value="男" class="ace">
+                <span class="lbl">男</span>
+            </label>&nbsp;&nbsp;
+            <label>
+                <input name="da_sex" type="radio" value="女" class="ace">
+                <span class="lbl">女</span>
+            </label>
+	  </div>
+     </li>
+        <li class="clearfix">
+            <label class="label_name col-xs-2 col-lg-2">
+                <i class="c-red">*</i>年&nbsp;龄：</label>
+            <div class="formControls col-xs-6">
+                <input type="text" class="input-text col-xs-12" id="user-tel" name="da_age" datatype="m" >
+            </div>
+            <div class="col-4"> <span class="Validform_checktip"></span></div>
+        </li>
+        <li class="clearfix">
+            <label class="label_name col-xs-2 col-lg-2">
+                <i class="c-red">*</i>头&nbsp;像：</label>
+            <div class="formControls col-xs-6">
+                <input type="file" name="da_head" required="required" class="hidden" id="images"/>
+                <img src="" class="img1 fr hidden" alt="您还没有上传" style="width: 50px;height: 50px">
+            </div>
+            <div class="col-4"> <span class="Validform_checktip"></span></div>
+        </li>
+     <li class="clearfix">
+      <label class="label_name col-xs-2 col-lg-2">
+          <i class="c-red">*</i>角&nbsp;色：</label>
+      <div class="formControls col-xs-6">
+          <span class="select-box" style="width:150px;">
+				<select class="select" name="pow_id" size="1">
+                    {foreach $power as $val}
+                    {notin name='$val.pow_id' value='1'}
+                    <option value="{$val.pow_id}">{$val.pow_name}</option>
+                    {/notin}
+                    {/foreach}
+				</select>
+				</span>
+         </div>
+     </li>
+     <li class="clearfix">
+			<label class="label_name col-xs-2 col-lg-2">备&nbsp;注：</label>
+			<div class="formControls col-xs-6">
+				<textarea name="da_ramarks" cols="" rows="" class="textarea col-xs-12" placeholder="说点什么...100个字符以内" dragonfly="true" onkeyup="checkLength(this);"></textarea>
+				<span class="wordage">剩余字数：<span id="sy" style="color:Red;">100</span>字</span>
+			</div>
+		</li>
+         <li class="clearfix">
+			<div class="col-xs-2 col-lg-2">&nbsp;</div>
+			<div class="col-xs-6">
+	  <input class="btn button_btn bg-deep-blue " type="button" id="Add_Administrator" value="提交注册">
+      <input name="reset" type="reset" class="btn button_btn btn-gray" value="取消重置" />
+      <a href="javascript:ovid()" onclick="javascript :history.back(-1);" class="btn btn-info button_btn"><i class="fa fa-reply"></i> 返回上一步</a>
+			</div>
+		</li>
+    </ul>
+    </form>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    $('#images').on("change",function(){
+        var srcs = getObjectURL(this.files[0]);
+        $('.img1').attr("src",srcs).attr('layer-src',srcs);
+        $('.img_look').hide().next('.img1').show();
+    });
+    function getObjectURL(file) {
+        var url = null;
+        if (window.createObjectURL != undefined) {
+            url = window.createObjectURL(file)
+        } else if (window.URL != undefined) {
+            url = window.URL.createObjectURL(file)
+        } else if (window.webkitURL != undefined) {
+            url = window.webkitURL.createObjectURL(file)
+        }
+        return url
+    }
+    /***提交***/
+    $('#Add_Administrator').click(function(){
+    var pass    = $('#pass').val();
+    var newpass = $('#newpass').val();
+    if(pass==newpass){
+        var form    = new FormData($('#myform')[0]);
+        $.ajax({
+            url  : 'addnew',
+            type : 'post',
+            data : form,
+            dataType    : 'text',
+            contentType : false,
+            processData : false,
+            success:function (msg){
+                //console.log(msg);
+                if(msg==1100){
+                 layer.msg('成功!',{icon:1,time:1000});
+                 setInterval(function(){
+                 window.location.href= history.back(-1);
+                 },2000)
+                }else {
+                    layer.msg('失败!'+msg,{icon:2,time:1000});
+                }
+            },error:function(){
+                layer.msg('服务器没响应',{icon:0,time:1000});
+            }
+        })
+    }else {
+        layer.msg('密码不一致!',{icon:0,time:1000});
+    }
+
+});
+/*******滚动条*******/
+$("body").niceScroll({
+	cursorcolor:"#888888",
+	cursoropacitymax:1,
+	touchbehavior:false,
+	cursorwidth:"5px",
+	cursorborder:"0",
+	cursorborderradius:"5px"
+});
+
+//字数限制
+function checkLength(which) {
+	var maxChars = 100; //
+	if(which.value.length > maxChars){
+	   layer.open({
+	   icon:2,
+	   title:'提示框',
+	   content:'您输入的字数超过限制!',	
+    });
+		// 超过限制的字数了就将 文本框中的内容按规定的字数 截取
+		which.value = which.value.substring(0,maxChars);
+		return false;
+	}else{
+		var curr = maxChars - which.value.length; //250 减去 当前输入的
+		document.getElementById("sy").innerHTML = curr.toString();
+		return true;
+	}
+};	
+</script>

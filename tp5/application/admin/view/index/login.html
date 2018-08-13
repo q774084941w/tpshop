@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" >
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="/static/css/shop.css" type="text/css" rel="stylesheet" />
+<link href="/static/css/Sellerber.css" type="text/css"  rel="stylesheet" />
+<script src="/static/js/jquery-1.9.1.min.js" type="text/javascript" ></script>
+<script src="/static/js/layer/layer.js" type="text/javascript"></script>
+<title>用户登录</title>
+</head>
+
+<body class="login_style login-layout">
+    <div class="loginbody">
+        <div class="login-container">
+            <div class="login_logo">
+                <img src="/static/images/logo.png" />
+            </div>
+            <div class="position-relative">
+                <div id="login_add" class="login-box widget-box no-border visible">
+                    <div class="widget-main">
+                        <h4 class="header blue lighter bigger">
+                            <i class="fa fa-coffee green"></i>
+                            &nbsp;&nbsp;&nbsp;管理员登录
+                        </h4>
+                        <div class="clearfix">
+                            <div class="login_icon">
+                                <img src="/static/images/login_bg.png" />
+                            </div>
+                            <div class="add_login_cont Reg_log_style ">
+                                <form  id="myform">
+                                    <ul class="r_f">
+                                        <li class="frame_style form_error">
+                                            <label class="user_icon"></label>
+                                            <input name="username" data-name="用户名" type="text" id="username">
+                                            <i>用户名</i>
+                                        </li>
+                                        <li class="frame_style form_error">
+                                            <label class="password_icon"></label>
+                                            <input name="userpwd" data-name="密码" type="password" id="userpwd">
+                                            <i>密码</i>
+                                        </li>
+                                        <li class="frame_style form_error">
+                                            <label class="Codes_icon"></label>
+                                            <input name="Codes_text" type="text"  data-name="验证码" id="Codes_text" class="Codes_text">
+                                            <i>验证码</i>
+                                            <div class="Codes_region">
+                                                <img id="verify_img" src="{:captcha_src()}"  alt="captcha" >
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </form>
+                            </div>
+                            <div class="login_Click_Actions">
+                                <button type="button" class="button_width  btn btn-sm btn-primary" id="login_btn">
+                                    <i class="fa fa-key"></i>
+                                    &nbsp;&nbsp;登录
+                                </button>
+                                <p>
+                                    <label class="inline">
+                                        <input type="checkbox" class="ace">
+                                        <span class="lbl">保存密码</span>
+                                    </label>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#login_btn').on('click', function(){
+            var form = new FormData($('#myform')[0]);
+            //console.log(form);
+            $.ajax({
+                type  : 'post',
+                url   : '/admin/index/login',
+                data  : form,
+                async : true,
+                cache : false,
+                dataType    : 'text',
+                contentType : false,
+                processData : false,
+                error : function(){
+                    layer.alert('出错了', {
+                        icon: 2,
+                        skin: 'layer-ext-moon'
+                    });
+                    check();
+                },
+                success : function(msg){
+                    console.log(msg);
+                    if(msg==1100){
+                        layer.alert('登录成功', {
+                            icon: 1,
+                            skin: 'layer-ext-moon'
+                        });
+                        setTimeout(function () {
+                            window.location.href = '/admin/hom';
+                        },2000);
+                     }else {
+                            layer.alert('错误'+msg, {
+                                icon: 0,
+                                skin: 'layer-ext-moon'
+                            });
+                        check();
+                    }
+
+                }
+            });
+        });
+        $("input[type='text'],input[type='password']").blur(function(){
+            var $el = $(this);
+            var $parent = $el.parent();
+            $parent.attr('class','frame_style').removeClass(' form_error');
+            if($el.val()==''){
+                $parent.attr('class','frame_style').addClass(' form_error');
+            }
+        });
+        $("input[type='text'],input[type='password']").focus(function(){
+            var $el = $(this);
+            var $parent = $el.parent();
+            $parent.attr('class','frame_style').removeClass(' form_errors');
+            if($el.val()==''){
+                $parent.attr('class','frame_style').addClass(' form_errors');
+            } else{
+                $parent.attr('class','frame_style').removeClass(' form_errors');
+            }
+        });
+        $('#verify_img').click(function(){
+            check();
+        });
+        function check() {
+            var ts = Date.parse(new Date())/1000;
+            var img = document.getElementById('verify_img');
+            img.src = "/captcha?id="+ts;
+        }
+    })
+
+</script>

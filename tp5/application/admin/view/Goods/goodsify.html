@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link href="http://www.tpshop.com/static/css/shop.css" type="text/css" rel="stylesheet" />
+<link href="http://www.tpshop.com/static/css/Sellerber.css" type="text/css"  rel="stylesheet" />
+<link href="http://www.tpshop.com/static/css/bkg_ui.css" type="text/css"  rel="stylesheet" />
+<link href="http://www.tpshop.com/static/font/css/font-awesome.min.css"  rel="stylesheet" type="text/css" />
+<script src="http://www.tpshop.com/static/js/jquery-1.9.1.min.js" type="text/javascript" ></script>
+<script type="text/javascript" src="http://www.tpshop.com/static/js/jquery.cookie.js"></script>
+<script src="http://www.tpshop.com/static/js/shopFrame.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/js/Sellerber.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/js/layer/layer.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/js/laydate/laydate.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/layui/layui.js" type="text/javascript"></script>
+    <style type="text/css">
+
+    </style>
+<title>分类列表</title>
+</head>
+<style type="text/css">
+ .template_prompt{ margin-top:200px; width:300px; margin-left:auto; margin-right:auto; text-align:center; font-size:16px;}
+ .template_prompt h2{ color:#666; margin:20px 0px;}
+</style>
+<body>
+<div class="margin" id="page_style">
+ <div class="operation clearfix">
+  <span class="submenu"><a href="javascript:void(0)" name="Goods/addIfy" class="btn button_btn bg-green"  title="添加商品分类"><i class="fa  fa-edit"></i>&nbsp;添加商品分类</a></span>
+  <div class="search  clearfix">
+   <label class="label_name">分类搜索：</label><input name="" type="text"  class="form-control col-xs-6"/><button class="btn button_btn bg-deep-blue " onclick=""  type="button"><i class="fa  fa-search"></i>&nbsp;搜索</button>
+
+  </div>
+ </div>
+ <!--列表展示-->
+ <div class="list_Exhibition margin-sx" style="height:600px;overflow: auto">
+  <table class="table table_list table_striped table-bordered" id="sample-table">
+   <thead>
+   <tr>
+    <th width="30"><label>+<span class="lbl"></span></label></th>
+    <th width="100">分类ID</th>
+     <th width="100">层级</th>
+    <th>分类名称</th>
+    <th>链接地址</th>
+    <th width="100">是否显示</th>
+    <th width="300">操作</th>
+   </tr>
+   </thead>
+   <tbody style="height:600px;overflow: auto">
+   {volist name="re" id="v"}
+   <tr>
+    <td><input type="text" value="{$v.cla_id}" style="display: none"/><span class="fen" style="cursor: pointer">+</span></td>
+    <td>{$v.cla_id}</td>
+     {if($v.pre==1)}
+        <td>-</td>
+     {elseif($v.pre==2) /}
+        <td>--</td>
+     {else /}
+       <td>---</td>
+     {/if}
+    <td>{$v.cla_name}</td>
+    <td>{$v.cla_link}</td>
+    <td>
+     {if($v.choose==1)}
+     <input type="text" value="{$v.cla_id}" style="display: none"/><input type="checkbox" value="None" id="choose" name="check" checked />
+     {else /}
+     <input type="text" value="{$v.cla_id}" style="display: none"/><input type="checkbox" value="None" name="check"/>
+     {/if}
+    </td>
+    <td>
+        {if($v.pre==3)}
+        <input type="text" value="{$v.cla_id}" style="display: none"/><button class="btn button_btn bg-deep-blue" type="button">修改</button>
+        <input type="text" value="{$v.cla_id}" style="display: none"/><button class="btn button_btn bg-orange" name="dele" type="button">删除</button>
+        {else /}
+        <input type="text" value="{$v.cla_id}" style="display: none"/><button class="btn button_btn bg-deep-blue" type="button">修改</button>
+        <input type="text" value="{$v.cla_id}" style="display: none"/><button class="btn button_btn bg-orange" name="dele" type="button">删除</button>
+        <input type="text" value="{$v.cla_id}" style="display: none"/><button class="btn button_btn bg-gray" type="button">添加子分类</button><input type="text" value="{$v.cla_name}" style="display: none"/>
+        {/if}
+    </td>
+   </tr>
+   {/volist}
+   </tbody>
+  </table>
+ </div>
+</div>
+<script type="text/javascript">
+ $(function() {
+  $("#page_style").frame({
+   float : 'left',
+   menu_nav:'.operation',
+   color_btn:'.skin_select',
+  });
+ });
+ //修改分类信息
+ $('.bg-deep-blue').click(function(){
+     var id = $(this).prev().val();
+     layer.open({
+         type: 2,
+         area: ['1100px', '400px'],
+         title: '修改分类',
+         shade: 0.6,
+         anim: 2,
+         content: 'http://www.tpshop.com/Admin/Goods/updata_ify/?Id='+id,
+         cancel: function () {
+             //右上角关闭回调
+         }
+     })
+ });
+ //添加子分类
+ $('.bg-gray').click(function(){
+     var id = $(this).prev().val();
+     var cla_name = $(this).next().val();
+     layer.open({
+         type: 2,
+         area: ['1100px', '400px'],
+         title: '添加子分类',
+         shade: 0.6,
+         anim: 2,
+         content: 'http://www.tpshop.com/Admin/Goods/son_ify/?Id='+id+'&cla_name='+cla_name,
+         cancel: function () {
+             //右上角关闭回调
+         }
+     })
+ });
+ //分类事件
+ $(".fen").click(function(){
+     var id=$(this).prev().val();
+     $.ajax({
+         url:"http://www.tpshop.com/Admin/Goods/select_son",
+         type:'POST',
+         async:true,
+         data:{
+             'cla_id':id
+         },
+         timeout:5000,
+         dataType:'json',
+         success:function (data) {
+             alert($(this).parent().parent())
+             if(data.length > 0){
+                 //console.log($(this).parent());
+             }else {
+                 layer.alert('暂无下级分类');
+             }
+         }
+     });
+ });
+ //删除事件
+ $(".bg-orange").click(function () {
+     var id = $(this).prev().val();
+     layer.confirm('您确定删除么？', {
+         btn: ['删除','取消'] //按钮
+     }, function(){
+         $.ajax({
+             url:"http://www.tpshop.com/Admin/Goods/delete_ify",
+             type:'POST',
+             async:true,
+             data:{
+                 'cla_id':id
+             },
+             timeout:5000,
+             dataType:'json',
+             success:function (data) {
+                 console.log(data);
+                 if(data.sess==1){
+                     layer.alert(data.mess,{
+                         btn: ['刷新页面'] //按钮
+                     }, function(){
+                         window.location.reload();
+                     });
+                 }else {
+                     layer.alert(data.mess);
+                 }
+             }
+         });
+     });
+ });
+//状态调整事件
+ $("input[name='check']").click(function () {
+     //alert($(this).prev().val());
+     if($(this).is(':checked')){
+         $.ajax({
+             url:"http://www.tpshop.com/Admin/Goods/checkChoosec",
+             type:'POST',
+             async:true,
+             data:{
+                 'cla_id':$(this).prev().val()
+             },
+             timeout:5000,
+             dataType:'json',
+             success:function (data) {
+
+             }
+         });
+     }else {
+         $.ajax({
+             url:"http://www.tpshop.com/Admin/Goods/checkChoose",
+             type:'POST',
+             async:true,
+             data:{
+                 'cla_id':$(this).prev().val()
+             },
+             timeout:5000,
+             dataType:'json',
+             success:function (data) {
+
+             }
+         });
+     }
+ })
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="__CSS__/shop.css" type="text/css" rel="stylesheet" />
+<link href="__CSS__/Sellerber.css" type="text/css"  rel="stylesheet" />
+<link href="__CSS__/bkg_ui.css" type="text/css"  rel="stylesheet" />
+<link href="/static/font/css/font-awesome.min.css"  rel="stylesheet" type="text/css" />
+<script src="__JS__/jquery-1.9.1.min.js" type="text/javascript" ></script>
+<script src="__JS__/shopFrame.js" type="text/javascript"></script>
+<script src="__JS__/Sellerber.js" type="text/javascript"></script>
+<script src="__JS__/layer/layer.js" type="text/javascript"></script>
+<script src="__JS__/laydate/laydate.js" type="text/javascript"></script>
+<title>会员管理</title>
+</head>
+<body>
+<div class="margin" id="page_style">
+   <div class="operation clearfix">
+    <ul class="choice_search">
+     <li class="clearfix col-xs-2 col-lg-2 col-ms-3 "><label class="label_name ">会员名称：</label><input id="name" type="text"  class="form-control col-xs-6 col-lg-5"/></li>
+      <li class="clearfix col-xs-4 col-lg-5 col-ms-5 "><label class="label_name ">注册时间：</label> 
+     <input class="laydate-icon col-xs-4 col-lg-3" id="start" style=" margin-right:10px; height:28px; line-height:28px; float:left">
+      <span  style=" float:left; padding:0px 10px; line-height:32px;">至</span>
+      <input class="laydate-icon col-xs-4 col-lg-3" id="end" style="height:28px; line-height:28px; float:left"></li>
+     <button class="btn button_btn bg-deep-blue " onclick=""  type="button"><i class="fa  fa-search"></i>&nbsp;搜索</button>
+    </ul>
+    </div>
+<div class="bkg_List_style">
+ <div class="bkg_List_operation clearfix">
+  <ul class="bkg_List_Button_operation">
+   <li class="btn btn-danger">
+       <a href="javascrpt:;" class="btn_add" id="dropMen">
+           <em class="bkg_List_icon icon_add"></em>删除用户</a></li>
+   <li class="btn btn-Dark-success">
+       <a href="javascrpt:;" class="btn_add" id="closeMen">
+           <em class="bkg_List_icon icon_close"></em>关闭用户</a></li>
+      <li class="btn btn-Dark-success">
+       <a href="javascrpt:;" class="btn_add" id="openMen">
+           <em class="bkg_List_icon icon_delete"></em>启用用户</a></li>
+  </ul>
+ </div>
+ <div class="bkg_List clearfix">
+  <table class="table  table_list table_striped table-bordered">
+   <thead>
+    <tr>
+     <th  width="40"><label><input type="checkbox" class="ace"><span class="lbl"></span></label></th>
+     <th>用户名</th>
+     <th>真实姓名</th>
+     <th>性别</th>
+     <th>电话</th>
+     <th>邮箱</th>
+     <th>地址</th>
+     <th>加入时间</th>
+     <th>等级</th>
+     <th>状态</th>
+    </tr>
+   </thead>
+   <tbody>
+   {foreach $user as $val}
+    <tr>
+     <td>
+         <label>
+            <input type="checkbox" class="ace" value="{$val.u_id}">
+                <span class="lbl"></span>
+        </label>
+     </td>
+     <td>{$val.u_name}</td>
+     <td>{$val.m_name}</td>
+     <td>{$val.m_sex}</td>
+     <td>{$val.u_phone}</td>
+     <td>{$val.u_email}</td>
+     <td>{$val.m_address}</td>
+     <td>{$val.u_time}</td>
+     <td>{$val.v_name}</td>
+     <td>{$val.u_state==1?'启用':'停用'}</td>
+    </tr>
+   {/foreach}
+   </tbody>
+  </table>
+ </div>
+</div>
+</div>
+</body>
+</html>
+<script>
+/*******滚动条*******/
+$("body").niceScroll({  
+	cursorcolor:"#888888",  
+	cursoropacitymax:1,  
+	touchbehavior:false,  
+	cursorwidth:"5px",  
+	cursorborder:"0",  
+	cursorborderradius:"5px"  
+});
+/******时间设置*******/
+  var start = {
+    elem: '#start',
+    format: 'YYYY-MM-DD',
+   // min: laydate.now(), //设定最小日期为当前日期
+    max: '2099-06-16', //最大日期
+    istime: true,
+    istoday: false,
+    choose: function(datas){
+         end.min = datas; //开始日选好后，重置结束日的最小日期
+         end.start = datas //将结束日的初始值设定为开始日
+    }
+};
+var end = {
+    elem: '#end',
+    format: 'YYYY-MM-DD',
+    //min: laydate.now(),
+    max: '2099-06-16',
+    istime: true,
+    istoday: false,
+    choose: function(datas){
+        start.max = datas; //结束日选好后，重置开始日的最大日期
+    }
+};
+laydate(start);
+laydate(end);
+/********************列表操作js******************/
+$('table th input:checkbox').on('click' , function(){
+					var that = this;
+					$(this).closest('table').find('tr > td:first-child input:checkbox')
+					.each(function(){
+						this.checked = that.checked;
+						$(this).closest('tr').toggleClass('selected');
+					});
+						
+				});
+/***删除用户***/
+    $('#dropMen').click(function(){
+        layer.alert('确定删除！',{
+            title: '提示框',
+            icon :0,
+            yes  : function () {
+                var all = $('input:checked');
+                var arr = new Array();
+                for (var i= 0;i<all.length;i++){
+                    arr[i]=$(all[i]).val();
+                }
+                var string = JSON.stringify(arr);
+                $.post('user/dropMen',{'str':string},function(msg){
+                    if(msg==1100){
+                        layer.alert('删除完成！',{
+                            title: '提示框',
+                            icon :1,
+                            yes  : function(){
+                                location.assign(location);
+                            }
+                        })
+                    } else{
+                        layer.alert(msg,{
+                            title: '提示框',
+                            icon :0
+                        })
+                    }
+                },'text');
+            }
+        });
+    });
+    /***关闭用户***/
+    $('#closeMen').click(function(){
+        layer.alert('确定关闭！',{
+            title: '提示框',
+            icon :0,
+            yes  : function () {
+                var all = $('input:checked');
+                var arr = new Array();
+                for (var i= 0;i<all.length;i++){
+                    arr[i]=$(all[i]).val();
+                }
+                var string = JSON.stringify(arr);
+                $.post('user/closeMen',{'str':string},function(msg){
+                   if(msg==1100){
+                       layer.alert('关闭完成！',{
+                           title: '提示框',
+                           icon :1,
+                           yes  : function(){
+                               location.assign(location);
+                           }
+                       })
+                   } else{
+                       layer.alert(msg,{
+                           title: '提示框',
+                           icon :0
+                       })
+                   }
+                },'text');
+            }
+        });
+    });
+/**启用***/
+    $('#openMen').click(function(){
+        layer.alert('确定启用！',{
+            title: '提示框',
+            icon :0,
+            yes  : function () {
+                var all = $('input:checked');
+                var arr = new Array();
+                for (var i= 0;i<all.length;i++){
+                    arr[i]=$(all[i]).val();
+                }
+                var string = JSON.stringify(arr);
+                $.post('user/openMen',{'str':string},function(msg){
+                   if(msg==1100){
+                       layer.alert('启用完成！',{
+                           title: '提示框',
+                           icon :1,
+                           yes  : function(){
+                               location.assign(location);
+                           }
+                       })
+                   } else{
+                       layer.alert(msg,{
+                           title: '提示框',
+                           icon :0
+                       })
+                   }
+                },'text');
+            }
+        });
+    });
+</script>

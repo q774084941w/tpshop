@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+	<meta charset="UTF-8">
+	<title>登录</title>
+	<link rel="stylesheet" href="{:request()->domain()}/__STATIC__/AmazeUI-2.4.2/assets/css/amazeui.css" />
+	<link href="{:request()->domain()}/__CSS__/dlstyle.css" rel="stylesheet" type="text/css">
+	<script src="{:request()->domain()}/__JS__/jquery-1.9.1.min.js" type="text/javascript" ></script>
+	<script src="{:request()->domain()}/__JS__/layer/layer.js" type="text/javascript"></script>
+</head>
+
+<body>
+
+	<div class="login-boxtitle">
+		<a href="http://www.tpshop.com"><img alt="logo" src="{:request()->domain()}/__STATIC__/images/logobig.png" /></a>
+	</div>
+
+	<div class="login-banner">
+		<div class="login-main">
+			<div class="login-banner-bg">
+				<span></span><img src="{:request()->domain()}/__STATIC__/images/big.jpg" /></div>
+			<div class="login-box">
+				<h3 class="title">登录商城</h3>
+				<div class="clear"></div>
+				<div class="login-form">
+					<form id="myform">
+						<div class="user-name">
+							<label for="user"><i class="am-icon-user"></i></label>
+							<input type="text" name="u_name" id="user" placeholder="邮箱/手机/用户名">
+						</div>
+						<div class="user-pass">
+							<label for="password"><i class="am-icon-lock"></i></label>
+							<input type="password" name="pass" id="password" placeholder="请输入密码">
+						</div>
+					</form>
+				</div>
+				<div class="login-links">
+					<label for="remember-me"><input id="remember-me" type="checkbox">记住密码</label>
+					<a href="#" class="am-fr">忘记密码</a>
+					<a href="{:request()->domain()}/index/user/register" class="zcnext am-fr am-btn-default">注册</a>
+					<br />
+				</div>
+				<div class="am-cf">
+					<input type="submit" value="登 录" class="am-btn am-btn-primary am-btn-sm">
+				</div>
+				<div class="partner">
+					<h3>合作账号</h3>
+					<div class="am-btn-group">
+						<li><a href="#"><i class="am-icon-qq am-icon-sm"></i><span>QQ登录</span></a></li>
+						<li><a href="#"><i class="am-icon-weibo am-icon-sm"></i><span>微博登录</span> </a></li>
+						<li><a href="#"><i class="am-icon-weixin am-icon-sm"></i><span>微信登录</span> </a></li>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="footer "></div>
+</body>
+<script>
+	$(document).ready(function ()
+	{
+		$('input[value="登 录"]').click(function ()
+		{
+			var form = new FormData($('#myform')[0]);
+			$.ajax({
+			    url  : '{:request()->domain()}/index/user/login',
+				type : 'post',
+				data : form,
+				dataType : 'text',
+                contentType : false,
+                processData : false,
+				success     : function (msg) {
+                    if(msg==1100){
+                        layer.alert('登录成功！',{
+                            title: '提示框',
+                            icon :1,
+                            yes  : function () {
+                                window.history.back();
+                            }
+                        });
+                    }else {
+                        layer.alert('登录失败！'+msg,{
+                            title: '提示框',
+                            icon :2
+                        });
+                    }
+                },
+				error       : function (msg) {
+                    layer.alert('出错了！'+msg,{
+                        title: '提示框',
+                        icon :2
+                    });
+                }
+			})
+        })
+    })
+</script>
+</html>

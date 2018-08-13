@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link href="http://www.tpshop.com/static/css/shop.css" type="text/css" rel="stylesheet" />
+<link href="http://www.tpshop.com/static/css/Sellerber.css" type="text/css"  rel="stylesheet" />
+<link href="http://www.tpshop.com/static/css/bkg_ui.css" type="text/css"  rel="stylesheet" />
+<link href="http://www.tpshop.com/static/font/css/font-awesome.min.css"  rel="stylesheet" type="text/css" />
+<script src="http://www.tpshop.com/static/js/jquery-1.9.1.min.js" type="text/javascript" ></script>
+<script src="http://www.tpshop.com/static/js/layer/layer.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/js/laydate/laydate.js" type="text/javascript"></script>
+<!--[if lt IE 9]>
+  <![endif]-->
+<title>添加商品分类</title>
+</head>
+
+<body>
+<div class="margin">
+<div class="add_style">
+ <ul>
+  <li class="clearfix"><label class="label_name col-xs-1"><i>*</i>分类名称：&nbsp;&nbsp;</label><div class="Add_content col-xs-11"><input name="cla_name" type="text" value="{$cla_name}"  class="col-xs-6"/></div></li>
+     <input type="text" name="cla_id" value="{$cla_id}" style="display: none">
+     <li class="clearfix">
+         <label class="label_name col-xs-1"><i>*</i>上级分类：&nbsp;&nbsp;</label>
+         <div class="col-sm-4" style="width: 220px">
+             <select class="form-control" style=" width:200px" id="cla_fid">
+                <option selected value="0">顶级分类</option>
+                 {volist name="re" id="v"}
+                    <option value="{$v.cla_id}">{$v.cla_name}</option>
+                 {/volist}
+             </select>
+         </div>
+         <div class="col-sm-4" style="float: left">
+             <select class="form-control" style=" width:200px" id="cla_fid_s">
+                 <option selected>请选择商品分类</option>
+             </select>
+         </div>
+     </li>
+     <li class="clearfix"><label class="label_name col-xs-1"><i>*</i>链接地址：&nbsp;&nbsp;</label><div class="Add_content col-xs-11"><input name="cla_link" type="text" value="{$cla_link}"  class="col-xs-6"/></div></li>
+     <li class="clearfix">
+      <div class="col-xs-4">
+     <label class="label_name col-xs-3">是否显示：&nbsp;&nbsp;</label>
+    <div class="Add_content col-xs-9">
+        {if($choose==1)}
+    <label><input type="radio" name="checkbox" class="ace"  checked="checked" value="1"><span class="lbl">是</span></label>
+    <label><input type="radio" name="checkbox" class="ace"  value="0"><span class="lbl">否</span></label>
+        {else /}
+        <label><input type="radio" name="checkbox" class="ace"   value="1"><span class="lbl">是</span></label>
+        <label><input type="radio" name="checkbox" class="ace" checked="checked" value="0"><span class="lbl">否</span></label>
+        {/if}
+    </div>   
+    </div>
+    </li>
+ </ul>
+ <div class="Button_operation btn_width">
+    <button class="btn button_btn bg-deep-blue"  type="button">修改并提交</button>
+    <button class="btn button_btn bg-gray" type="button">取消修改</button>
+ </div>
+</div>
+</div>
+<script type="text/javascript">
+    $('.bg-gray').click(function(){
+        var index=parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    });
+    $(".bg-deep-blue").click(function(){
+        var cla_name = $('input[name="cla_name"]').val();
+        var cla_id = $('input[name="cla_id"]').val();
+        var cla_link = $('input[name="cla_link"]').val();
+        var choose = $('input:radio[name="checkbox"]:checked').val();
+        var cla_fid = 0;
+        if($("#cla_fid_s").val()=="请选择商品分类"){
+            cla_fid = $("#cla_fid").val();
+        }else {
+            cla_fid = $("#cla_fid_s").val();
+        }
+
+        $.ajax({
+            url:"http://www.tpshop.com/Admin/Goods/updata_ify_info",
+            type:'POST',
+            async:true,
+            data:{
+                'cla_id':cla_id,
+                'cla_name':cla_name,
+                'cla_link':cla_link,
+                'cla_fid' :cla_fid,
+                'choose'  :choose
+            },
+            timeout:5000,
+            dataType:'json',
+            success:function(data){
+                console.log(data);
+                if(data.sess==1){
+                    layer.alert(data.mess,{
+                        btn: ['刷新页面'] //按钮
+                    }, function(){
+                        window.parent.location.reload();
+                        var index=parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                    });
+                }else {
+                    alert(data.mess);
+                }
+            }
+        });
+    })
+    $('#cla_fid').change(function () {
+        var cla_id = $(this).val();
+        if(cla_id != 0){
+            $.ajax({
+                url:"http://www.tpshop.com/Admin/Goods/select_next",
+                type:'POST',
+                async:true,
+                data:{
+                    'cla_id':cla_id
+                },
+                timeout:5000,
+                dataType:'json',
+                success:function(data){
+                    console.log(data);
+                    if(data.length != 0) {
+                        $('#cla_fid_s').empty();
+                        $('#cla_fid_s').append("<option>请选择商品分类</option>");
+                        for(i=0;i<data.length;i++){
+                            $('#cla_fid_s').append("<option value='"+data[i].cla_id+"'>"+data[i].cla_name+"</option>");
+                        }
+
+                    }else {
+                        $('#cla_fid_s').empty();
+                        $('#cla_fid_s').append("<option>请选择商品分类</option>");
+                    }
+                }
+            });
+        }else {
+            $('#cla_fid_s').empty();
+            $('#cla_fid_s').append("<option value='0'>请选择商品分类</option>");
+        }
+    })
+</script>
+</body>
+</html>
+

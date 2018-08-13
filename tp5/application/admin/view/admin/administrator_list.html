@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="/static/css/shop.css" type="text/css" rel="stylesheet" />
+<link href="/static/css/Sellerber.css" type="text/css"  rel="stylesheet" />
+<link href="/static/css/bkg_ui.css" type="text/css"  rel="stylesheet" />
+<link href="/static/font/css/font-awesome.min.css"  rel="stylesheet" type="text/css" />
+<script src="/static/js/jquery-1.9.1.min.js" type="text/javascript" ></script>
+<script src="/static/js/Sellerber.js" type="text/javascript"></script>
+<script src="/static/js/layer/layer.js" type="text/javascript"></script>
+<title>管理员列表</title>
+</head>
+<body>
+<div class="margin Competence_style" id="page_style">
+    <div class="operation clearfix">
+<button class="btn button_btn btn-danger" type="button" onclick=""><i class="fa fa-trash-o"></i>&nbsp;删除</button>
+<a href="add_administrator"  class="btn button_btn bg-deep-blue" title="添加管理员"><i class="fa  fa-edit"></i>&nbsp;添加管理员</a>
+  <select class="select Competence_sort" name="admin-role" size="1" id="Competence_sort">
+
+					<option value="0">--选择分类--</option>
+	  {foreach $power as $val}
+					<option value="{$val.pow_id}">{$val.pow_name}</option>
+	  {/foreach}
+				</select>
+   <div class="search  clearfix">
+
+   <input id="something" type="text"  class="form-control col-xs-8"/><button class="btn button_btn bg-deep-blue " id='select' type="button"><i class="fa  fa-search"></i>&nbsp;搜索</button>
+</div>
+</div>
+<div class="compete_list">
+       <table id="sample_table" class="table table_list table_striped table-bordered dataTable no-footer">
+		 <thead>
+			<tr>
+			  <th class="center"><label><input type="checkbox" class="ace"><span class="lbl"></span></label></th>
+			  <th>登录名</th>
+              <th>角色</th>
+			  <th class="hidden-480">加入时间</th>
+              <th>状态</th>
+			  <th class="hidden-480">操作</th>
+             </tr>
+		    </thead>
+             <tbody>
+			 {foreach $admin as $val}
+			  <tr>
+				<td class="center">
+					{notin name='$val.pow_id' value='1'}
+					<label>
+						<input type="checkbox" class="ace">
+						<span class="lbl"></span>
+					</label>
+					{/notin}
+				</td>
+				<td>{$val.ad_name}</td>
+				<td>{$val.pow_name}</td>
+                <td>{$val.da_time}</td>
+                <td class="td-status">
+					{$val.ad_state==1?'<span class="label label-success label-sm">已启用</span>':'<span class="label label-success label-sm">已停用</span>'}
+				</td>
+
+				<td class="td-manage">
+					{notin name='$val.pow_id' value='1'}
+                 <a title="停用" onclick="Competence_close(this,{$val.ad_id})" href="javascript:;" class="btn button_btn btn-Dark-success">停用</a>
+                 <a title="删除" href="javascript:;" onclick="DropThis({$val.ad_id})"  class="btn button_btn btn-danger">删除</a>
+					<a name="编辑" href="javascript:;" class="btn button_btn bg-deep-blue">编辑
+					</a><div class="change_Pass_style display"><form>
+					<input type="hidden" name="ad_id" value="{$val.ad_id}">
+					<ul class="change_Password clearfix">
+						<li>
+							<label class="label_name">
+								角&nbsp;&nbsp;色
+							</label>
+							<select class="select Competence_sort" name="pow_id">
+
+								<option value="0">--选择分类--</option>
+								{foreach $power as $val}
+								{notin name='$val.pow_id' value='1'}
+								<option value="{$val.pow_id}">{$val.pow_name}</option>
+								{/notin}
+								{/foreach}
+							</select>
+						</li>
+					</ul>
+				</form>
+				</div>
+					{/notin}
+				</td>
+			   </tr>
+			 {/foreach}
+		      </tbody>
+	        </table>
+     </div>
+</div>
+</body>
+</html>
+<script>
+	/**筛选**/
+$(function(){
+	$("#Competence_sort").click(function(){
+		var option=$(this).find("option:selected").text();
+		var value=$(this).val();
+		if(value==0){
+			  
+			$("#sample_table tbody tr").show()
+			}
+			else{
+		$("#sample_table tbody tr").hide().filter(":contains('"+(option)+"')").show();	
+			}
+		}).click();
+	$('#select').click(function(){
+		var something = $('#something').val();
+		$.post('')
+	});
+});
+	/**删除**/
+	function DropThis(id){
+		$.ajax({
+			url  : 'dropAdmin',
+			type : 'post',
+			data : {'id':id},
+			dataType : 'text',
+			success  : function(msg){
+				layer.msg('删除完成!',{icon:1,time:1000});
+				setInterval(function(){
+					location.assign(location);
+				},2000)
+			},
+			error    : function(msg){
+				layer.msg('出错啦!'+msg,{icon:1,time:1000});
+				setInterval(function(){
+					location.assign(location);
+				},2000)
+			}
+		})
+	}
+/*******滚动条*******/
+$("body").niceScroll({  
+	cursorcolor:"#888888",  
+	cursoropacitymax:1,  
+	touchbehavior:false,  
+	cursorwidth:"5px",  
+	cursorborder:"0",  
+	cursorborderradius:"5px"  
+});
+/*管理员-停用*/
+function Competence_close(obj,id){
+	layer.confirm('确认要停用吗？',function(index){
+		$.ajax({
+			url  : 'takeState',
+			type : 'post',
+			data : {'state':0,'ad_id':id},
+			dataType : 'text',
+			success  : function(msg){
+				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" class="btn button_btn btn-gray" onClick="Competence_start(this,id)" href="javascript:;" title="启用">启用</a>');
+				$(obj).parents("tr").find(".td-status").html('<span class="label label-success label-sm">已停用</span>');
+				$(obj).remove();
+				layer.msg('已停用!',{icon: 5,time:1000});
+			},
+			error    : function(msg){
+				layer.msg('出错啦!'+msg,{icon: 5,time:1000});
+			}
+		});
+
+	});
+}
+
+/*管理员-启用*/
+function Competence_start(obj,id){
+	layer.confirm('确认要启用吗？',function(index){
+		$.ajax({
+			url  : 'takeState',
+			type : 'post',
+			data : {'state':1,'ad_id':id},
+			dataType : 'text',
+			success  : function(msg){
+		$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" class="btn button_btn  btn-Dark-success" onClick="Competence_close(this,id)" href="javascript:;" title="停用">停用</a>');
+		$(obj).parents("tr").find(".td-status").html('<span class="label label-success label-sm">已启用</span>');
+		$(obj).remove();
+		layer.msg('已启用!',{icon: 6,time:1000});
+			},
+			error    : function(msg){
+				layer.msg('出错啦!'+msg,{icon: 5,time:1000});
+			}
+		});
+	});
+}
+/****复选框选中******/
+$('table th input:checkbox').on('click' , function(){
+					var that = this;
+					$(this).closest('table').find('tr > td:first-child input:checkbox')
+					.each(function(){
+						this.checked = that.checked;
+						$(this).closest('tr').toggleClass('selected');
+					});
+						
+				});
+	/*编辑*/
+	$('[ name="编辑" ]').click(function(){
+		var obj = $(this).next();
+		//console.log(obj.children()[0]);
+		layer.open({
+			type: 1,
+			title:'编辑',
+			area: ['300px','300px'],
+			content: obj,
+			btn:['确认修改'],
+			yes:function(){
+				var formdata = new FormData(obj.children()[0]);
+				$.ajax({
+					url  : 'changeAdmin',
+					type : 'post',
+					data : formdata,
+					dataType:'text',
+					contentType : false,
+					processData : false,
+					success : function(msg){
+						layer.msg('已修改!',{icon:1,time:1000});
+						setInterval(function(){
+							location.assign(location);
+						},2000)
+
+					}
+				})
+			}
+		});layer.close();
+	});
+</script>

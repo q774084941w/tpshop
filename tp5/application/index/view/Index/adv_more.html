@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>
+	更多专题- 淘金
+</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/> 
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<meta name="Keywords" content="京东JD.COM 更多快报 新闻 活动"/>
+<meta name="description" content="京东JD.COM 更多快报 新闻 活动"/>
+	<link href="/static/basic/css/demo.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">window.pageConfig = { compatible: true }; </script>
+<link rel="stylesheet" type="text/css" href="//misc.360buyimg.com/??jdf/1.0.0/unit/ui-base/5.0.0/ui-base.css,jdf/1.0.0/unit/shortcut/5.0.0/shortcut.css,jdf/1.0.0/unit/global-header/5.0.0/global-header.css,jdf/1.0.0/unit/myjd/5.0.0/myjd.css,jdf/1.0.0/unit/nav/5.0.0/nav.css,jdf/1.0.0/unit/shoppingcart/5.0.0/shoppingcart.css,jdf/1.0.0/unit/global-footer/5.0.0/global-footer.css,jdf/1.0.0/unit/service/5.0.0/service.css,jdf/1.0.0/unit/basePatch/1.0.0/basePatch.css,jdf/1.0.0/unit/global-header-photo/5.0.0/global-header-photo.css" media="all"/><link media="all" href="//misc.360buyimg.com/201007/skin/df/newslist20120221.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="//misc.360buyimg.com/??jdf/lib/jquery-1.6.4.js,jdf/1.0.0/unit/base/5.0.0/base.js" source="combo"></script>
+	<link href="/static/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="/static/basic/js/jquery-1.7.min.js"></script>
+	<script type="text/javascript" src="/static/basic/js/quick_links.js"></script>
+
+	<script type="text/javascript" src="/static/AmazeUI-2.4.2/assets/js/amazeui.js"></script>
+	<script type="text/javascript" src="/static/js/jquery.imagezoom.min.js"></script>
+	<script type="text/javascript" src="/static/js/jquery.flexslider.js"></script>
+	<script type="text/javascript" src="/static/js/list.js"></script>
+	<script src="{:request()->domain()}/__JS__/layer/layer.js" type="text/javascript"></script>
+	<script type="text/javascript" src="/static/js/script.js"></script>
+	<script type="text/javascript" src="/static/basic/js/quick_links.js"></script>
+</head>
+<body>
+<!--shortcut start-->
+{include file='index@incloude/head_advertise'/}
+<div id="o-header-2013"><div id="header-2013" style="display:none;"></div></div>
+<!--nav end-->
+<div class="w main">
+    <div class="content fl" id="left">
+        <div class="m">
+        	<div class="mt"><h2>淘金公告</h2>
+        		<div class="extra"></div>
+        	</div>
+            	<ul>
+					{volist name="result" id="vo"}
+					<li>
+            			<div>
+            				<a href="{$vo.adv_link}"><font class="skcolor_ljg">{$vo.adv_name}</font> </a>
+            			</div>
+            			<span>2017-10-18 15:52:42</span>
+            			<div class="line"></div>
+            		</li>
+					{/volist}
+				</ul>
+        	</div>
+			<div>
+				<a href="http://www.tpshop.com/index/Index/adv_shows?page=1">首页</a>
+				<a href="http://www.tpshop.com/index/Index/adv_shows?page={$lt2}">上一页</a>
+				<a href="http://www.tpshop.com/index/Index/adv_shows?page={$lt2}">{$rlt2}</a>
+				<a href="http://www.tpshop.com/index/Index/adv_shows?page={$crr2}">{$rcrr2}</a>
+				<a href="http://www.tpshop.com/index/Index/adv_shows?page={$nt2}">{$rnt2}</a>
+				<a href="http://www.tpshop.com/index/Index/adv_shows?page={$nt2}">下一页</a>
+				<a href="http://www.tpshop.com/index/Index/adv_shows?page={$total}">尾页</a>
+				共{$total}页
+			</div>
+        </div>
+    </div><!--content end-->
+	<div class="content fr" id="right">
+		<div class="m">
+			<div class="mt"><h2>淘金促销</h2>
+				<div class="extra"></div>
+			</div>
+				<ul>
+					{volist name="result1" id="vo3"}
+					            		<li>
+            			<div>
+            				<a href="{$vo3.adv_link} "><font class="skcolor_ljg"></font>{$vo3.adv_name} </a>
+            			</div>
+            			<span>{$vo3.adv_time}</span>
+            			<div class="line"></div>
+            		</li>
+                  {/volist}
+									</ul>
+			</div>
+			<div>
+				<a href="http://www.tpshop.com/index/Index/adv_shows?page1=1">首页</a>
+				<a href="http://www.tpshop.com/index/Index/adv_shows?page1={$lt1}">上一页</a>
+				<a href="http://www.tpshop.com/index/Index/adv_shows?page1={$lt1}">{$rlt1}</a>
+				<a href="http://www.tpshop.com/index/Index/adv_shows?page1={$crr1}">{$rcrr1}</a>
+				<a href="http://www.tpshop.com/index/Index/adv_shows?page1={$nt1}">{$rnt1}</a>
+				<a href="http://www.tpshop.com/index/Index/adv_shows?page1={$nt1}">下一页</a>
+				<a href="http://www.tpshop.com/index/Index/adv_shows?page1={$total1}">尾页</a>
+				共{$total1}页
+			</div>
+		</div>
+	</div><!--content end-->
+	<span class="clr"></span>
+</div>
+
+<!--service end-->
+<!--footer start-->
+<div id="footer-2017">
+	{include file='index@incloude/footer' /}
+	</div>
+</div>
+<!--footer end-->
+
+	<script type="text/javascript" src="//d.jd.com/hotwords/get?Position=A-index-013"></script>
+	<!--<script type="text/javascript" src="//misc.360buyimg.com/lib/js/2012/lib-v1.js"></script>-->
+	<script type="text/javascript" src="//misc.360buyimg.com/jdf/1.0.0/unit/libPath/1.0.0/libPath.js"></script>	
+    <script type="text/javascript" src="//misc.360buyimg.com/product/js/2012/footprint.js"></script>
+	<script type="text/javascript">
+		function searchData(a){var d,e,b=a.type,c="<ul>";for(d=0;d<a.record.length;d++)e=a.record[d],c+="<li><div>",c+="<a href='",c+=e.url+"'>"+e.title+"</a>",c+="</div><span>"+e.time+"</span><div class='line'></div></li>";c+="</ul>",targetDiv=1==b?jQuery("#news_div"):jQuery("#active_div"),targetDiv.find("ul").remove(),targetDiv.append(c)}function pageFix(a){var e,g,h,i,j,k,l,b=parseInt(a.pageCount),c=a.type,d="";if(b>1){for(e=parseInt(a.pageIndex),parseInt(a.recordCount),g=a.suffix,h=2,e>1?(i=e-1,d="<a class='prev' href='javascript:void(0)' onclick='queryNews(",d+=c+","+g+","+i,d+=");'>上一页<b></b></a>",d+="<a href='javascript:void(0)' onclick='queryNews(",d+=c+","+g+","+1,d+=");'>1</a>"):d+="<span class='prev-disabled'>上一页<b></b></span>",e>h+2&&(d+="<span class='text'>...</span>"),j=h;j>=1;j--)e-j>1&&(k=e-j,d+="<a  href='javascript:void(0)' onclick='queryNews(",d+=c+","+g+","+k,d+=");'>",d+=k+"</a>");for(d+="<span class='current'>",d+=e+"</span>",j=1;h>=j;j++)b-e-j>0&&(k=e+j,d+="<a href='javascript:void(0)' onclick='queryNews(",d+=c+","+g+","+k,d+=");'>",d+=k+"</a>");b-e>h+1&&(d+="<span class='text'>...</span>"),b>e?(l=e+1,d+="<a href='javascript:void(0)' onclick='queryNews(",d+=c+","+g+","+b,d+=");'>",d+=b+"</a>",d+="<a href='javascript:void(0)' onclick='queryNews(",d+=c+","+g+","+l,d+=")' class='next'>下一页<b></b></a>"):d+="<span class='next-disabled'>下一页<b></b></span>"}targetDiv=1==c?jQuery("#news_fix"):jQuery("#active_fix"),targetDiv.html(d)}function queryNewsInfo(a,b,c){"1"==a?txtnews=jQuery("#txtnews").val():"2"==a&&(txtactive=jQuery("#txtactive").val()),queryNews(a,b,c)}function queryNews(a,b,c){var d,e;"1"==b?b="action":"2"==b&&(b="html"),d="queryNews."+b+"?",e="","1"==a?e=txtnews:"2"==a&&(e=txtactive),e=encodeURI(encodeURI(e)),jQuery.ajax({type:"POST",url:d+"type="+a+"&title="+e+"&page="+c+"&r="+Math.random(),dataType:"json",success:function(a){searchData(a),pageFix(a)}})}var txtnews="",txtactive="";jQuery("#txtnews").keyup(function(a){13==a.keyCode&&queryNewsInfo("1","action","1")}),jQuery("#txtactive").keyup(function(a){13==a.keyCode&&queryNewsInfo("2","action","1")});
+	seajs.use(['jdf/1.0.0/unit/globalInit/5.0.0/globalInit', 'jdf/1.0.0/unit/hotwords/5.0.0/hotwords'],function(globalInit, hotwords){
+        globalInit();
+        hotwords();
+    });
+	</script>
+<script>
+
+</script>
+<script type="text/javascript" src="//wl.jd.com/wl.js"></script>
+</body>
+</html>

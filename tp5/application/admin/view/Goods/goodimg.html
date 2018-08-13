@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="http://www.tpshop.com/static/css/shop.css" type="text/css" rel="stylesheet" />
+    <link href="http://www.tpshop.com/static/css/Sellerber.css" type="text/css"  rel="stylesheet" />
+    <link href="http://www.tpshop.com/static/css/bkg_ui.css" type="text/css"  rel="stylesheet" />
+    <link href="http://www.tpshop.com/static/font/css/font-awesome.min.css"  rel="stylesheet" type="text/css" />
+    <script src="http://www.tpshop.com/static/js/jquery-1.9.1.min.js" type="text/javascript" ></script>
+    <script src="http://www.tpshop.com/static/js/layer/layer.js" type="text/javascript"></script>
+    <script src="http://www.tpshop.com/static/layui/layui.js" type="text/javascript"></script>
+    <title>商品图片信息</title>
+    <style>
+        .mydiv{
+            width: 110px;
+            height: 110px;
+            float: left;
+            margin-left: 20px;
+            margin-top: 20px;
+            text-align: center;
+            line-height: 200px;
+
+
+        }
+        .dele{
+            width: 100px;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            position: relative;
+            background-color: #947d6d;
+            top: -120px;
+            z-index: 9;
+            display: none;
+            cursor: pointer;
+        }
+        .imgbox{
+            width: 800px;
+            height: 250px;
+            #border: 1px solid red;
+            #position: relative;
+            top: 120px;
+            left: 0px;
+            overflow:auto;
+        }
+        .imgbox_son{
+            width: 200px;
+            height: 120px;
+            float: left;
+            margin-left: 10px;
+            margin-top: 10px;
+            background-color: #00a2d4;
+        }
+    </style>
+</head>
+<body>
+<div style="width: 800px;height: 150px;overflow:auto;">
+    {volist name='re' id='vo'}
+    {if($vo.img_id==0)}
+    <div class="mydiv">
+        <img src="{$vo.img_url}" width="150" height="150">
+    </div>
+    {else /}
+    <div class="mydiv">
+        <img src="{$vo.img_url}" name="goodsimg" width="100" height="100" style="z-index: 10">
+        <input type="text" value="{$vo.img_id}" style="display: none"><div class="dele">删除</div>
+    </div>
+    {/if}
+    {/volist}
+</div>
+<button class="btn button_btn bg-deep-gray">+</button>
+<form enctype="multipart/form-data" id="myform">
+    <input type="text" name="g_id" value="{$gid}" style="display: none">
+<div class="imgbox">
+    <div class="imgbox_son" id="img">
+        <input type="file" name="goodsimg[]"><img src="" width="100" height="100" title="图片">
+        <button class="btn button_btn bg-red">取消</button>
+    </div>
+</div>
+</form>
+<button class="btn button_btn bg-deep-blue" style="margin-left: 200px;width: 100px">添加</button>
+<script>
+    $('.dele').click(function () {
+        var img_id = $(this).prev().val();
+        layer.confirm('您确定删除么？', {
+            btn: ['删除','取消'] //按钮
+        }, function(){
+            $.ajax({
+                url:"http://www.tpshop.com/Admin/Goods/delete_goodimg",
+                type:'POST',
+                async:true,
+                data:{
+                    'img_id':img_id
+                },
+                timeout:5000,
+                dataType:'json',
+                success:function (data) {
+                    console.log(data);
+                    if(data.sess==1){
+                        layer.alert(data.mess,{
+                            btn: ['确定'] //按钮
+                        }, function(){
+                            window.location.reload();
+                        });
+                    }else {
+                        layer.alert(data.mess);
+                    }
+                }
+            });
+        });
+
+
+    });
+    $('.bg-deep-blue').click(function () {
+        $.ajax({
+            url:"http://www.tpshop.com/admin/Goods/goodsuploadImg",
+            type:"POST",
+            data:new FormData($('#myform')[0]),
+            dataType:'json',
+            processData : false,
+            contentType : false,
+            success:function (data) {
+                console.log(data);
+                if(data==1){
+                    layer.alert('添加成功',{
+                        btn: ['点击刷新'] //按钮
+                    }, function(){
+                        window.location.reload();
+                    });
+                }
+            }
+        })
+    });
+    $(".bg-deep-gray").click(function () {
+        var div = $('#img').clone(true);
+        $('.imgbox').append(div);
+    });
+    $('.bg-red').click(function () {
+        if($('.imgbox div').length==1){
+            layer.alert('至少保留一个');
+        }else {
+            $(this).parent().remove();
+        }
+
+    });
+    $("input[name='goodsimg[]']").change(function(){
+        var objUrl = getObjectURL(this.files[0]);
+        if(objUrl){
+            $(this).next().attr('src',objUrl);
+        }
+    });
+    function getObjectURL(file) {
+        var url = null ;
+        if (window.createObjectURL!=undefined) { // basic
+            url = window.createObjectURL(file) ;
+        } else if (window.URL!=undefined) { // mozilla(firefox)
+            url = window.URL.createObjectURL(file) ;
+        } else if (window.webkitURL!=undefined) { // webkit or chrome
+            url = window.webkitURL.createObjectURL(file) ;
+        }
+        return url ;
+    }
+    $(".mydiv").hover(function(){
+        $(this).find("div.dele").show();
+    },function(){
+        $(this).find("div.dele").hide();
+    })
+    $('.dele').hover(function(){
+        $(this).css('color',"red");
+    });
+</script>
+</body>
+</html>

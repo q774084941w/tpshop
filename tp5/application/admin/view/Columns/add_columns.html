@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="http://www.tpshop.com/static/css/shop.css" type="text/css" rel="stylesheet" />
+    <link href="http://www.tpshop.com/static/css/Sellerber.css" type="text/css"  rel="stylesheet" />
+    <link href="http://www.tpshop.com/static/css/bkg_ui.css" type="text/css"  rel="stylesheet" />
+    <link href="http://www.tpshop.com/static/font/css/font-awesome.min.css"  rel="stylesheet" type="text/css" />
+    <script src="http://www.tpshop.com/static/js/jquery-1.9.1.min.js" type="text/javascript" ></script>
+    <script src="http://www.tpshop.com/static/js/Sellerber.js" type="text/javascript"></script>
+    <script src="http://www.tpshop.com/static/js/jquery.dataTables.min.js"></script>
+    <script src="http://www.tpshop.com/static/js/jquery.dataTables.bootstrap.js"></script>
+    <script src="http://www.tpshop.com/static/js/layer/layer.js" type="text/javascript"></script>
+    <script src="http://www.tpshop.com/static/js/laydate/laydate.js" type="text/javascript"></script>
+    <!--[if lt IE 9]>
+    <script src="http://www.tpshop.com/static/js/html5shiv.js" type="text/javascript"></script>
+    <script src="http://www.tpshop.com/static/js/respond.min.js"></script>
+    <script src="http://www.tpshop.com/static/js/css3-mediaqueries.js"  type="text/javascript"></script>
+    <![endif]-->
+    <title>添加栏目</title>
+</head>
+
+<body>
+<div class="add_style">
+    <ul>
+        <li class="clearfix"><label class="label_name col-xs-3">导航名称：&nbsp;&nbsp;</label><div class="Add_content col-xs-9"><input name="nav_name" id="nav_name" type="text"  class="col-xs-6"/></div>
+        </li>
+
+        <li class="clearfix">
+            <label class="label_name col-xs-3">链接地址：&nbsp;&nbsp;</label>
+            <div class="Link_address">
+                <input name="nav_site" id="nav_site" type="text"  class="col-xs-6" placeholder="如：http://www.jd.com/?cu=true"/>
+            </div>
+        </li>
+       <div class="Button_operation btn_width">
+             <button class="btn button_btn bg-deep-blue" id="but" type="button">保存并提交</button>
+           <a href="http://www.tpshop.com/admin/Columns" name="Columns" class="btn button_btn bg-gray">
+               <span>取消添加</span></a>
+         </div>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var postUrl="tiaj";
+        $("#but").click(function () {
+            $.post(postUrl,{
+                'nav_name':$('#nav_name').val(),
+                'nav_site':$('#nav_site').val(),
+
+            },function (data) {
+                console.log(data);
+                if(data.code==1){
+                    layer.alert(data.msg);
+                }else {
+                    layer.alert(data.msg);
+                }
+
+            })
+
+        });
+    });
+
+</script>
+</body>
+</html>

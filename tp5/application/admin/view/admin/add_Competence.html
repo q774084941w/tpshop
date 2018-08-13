@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="/static/css/shop.css" type="text/css" rel="stylesheet" />
+<link href="/static/css/Sellerber.css" type="text/css"  rel="stylesheet" />
+<link href="/static/css/bkg_ui.css" type="text/css"  rel="stylesheet" />
+<link href="/static/font/css/font-awesome.min.css"  rel="stylesheet" type="text/css" />
+<script src="/static/js/jquery-1.9.1.min.js" type="text/javascript" ></script>
+<script src="/static/js/Sellerber.js" type="text/javascript"></script>
+<script src="/static/js/layer/layer.js" type="text/javascript"></script>
+<title>权限设置</title>
+</head>
+<body>
+    <div class="margin" id="page_style">
+        <div class=" add_Competence_style margin" id="add_Competence_style">
+            <form id="power">
+            <ul class="add_style">
+                <li class="clearfix">
+                    <label class="label_name col-xs-1 col-lg-2">
+                        权限名称：
+                    </label>
+                    <span class="col-xs-6">
+                        <input name="pow_name" type="text"  class="col-xs-5"/>
+                    </span>
+                </li>
+                <li class="clearfix">
+                    <label class="col-xs-1 col-lg-2 label_name" for="form-field-1">
+                        权限描述：
+                    </label>
+                    <span class="col-xs-6">
+                        <textarea name="pow_describe" class="form-control col-xs-10" id="form_textarea" placeholder="" onkeyup="checkLength(this);"></textarea>
+                        <span class="wordage">
+                            剩余字数：
+                            <span id="sy" style="color:Red;">
+                            200
+                            </span>
+                            字
+                        </span>
+                    </span>
+                </li>
+                <li class="clearfix">
+                    <label class="col-xs-1 col-lg-2 label_name" for="form-field-1">
+                        选择用户：
+                    </label>
+                    <div class="col-xs-6 admin_name clearfix">
+    <!----------循环输出--------------->
+                        {foreach $admin as $val}
+                            {if $val.pow_id!=1}
+                               <label class="middle">
+                                   <input class="ace" type="checkbox" id="id-disable-check" name="admin[]" value="{$val.ad_id}">
+                                   <span class="lbl">{$val.ad_name}</span>
+                               </label>
+                            {/if}
+                        {/foreach}
+                    </div>
+                </li>
+           </ul>
+            </form>
+        </div>
+        <div class="Competence_list">
+            <div class="title_name">
+                <span>权限列表</span>
+            </div>
+            <div class="list_cont clearfix">
+                <div class="clearfix col-xs-4 col-lg-6 ">
+                    <dl class="Competence_name">
+                        <dt class="Columns_One">
+                            <label class="middle">
+                                <input class="ace" type="checkbox" id="id-disable-check">
+                                <span class="lbl">商品管理</span>
+                            </label>
+                        </dt>
+                        <dd class="permission_list clearfix">
+                            <label class="middle">
+                                <input class="ace" type="checkbox" id="id-disable-check">
+                                <span class="lbl">商品列表</span>
+                            </label>
+                            <label class="middle">
+                                <input class="ace" type="checkbox" id="id-disable-check">
+                                <span class="lbl">品牌管理</span>
+                            </label>
+                            <label class="middle">
+                                <input class="ace" type="checkbox" id="id-disable-check">
+                                <span class="lbl">分类管理</span>
+                            </label>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="clearfix col-xs-4 col-lg-6">
+                    <dl class="Competence_name">
+                        <dt class="Columns_One">
+                            <label class="middle">
+                                <input class="ace" type="checkbox" id="id-disable-check">
+                                <span class="lbl">账户管理</span>
+                            </label>
+                        </dt>
+                        <dd class="permission_list clearfix">
+                            <label class="middle">
+                                <input class="ace" type="checkbox" id="id-disable-check">
+                                <span class="lbl">支付方式</span>
+                            </label>
+                            <label class="middle">
+                                <input class="ace" type="checkbox" id="id-disable-check">
+                                <span class="lbl">支付设置</span>
+                            </label>
+                            <label class="middle">
+                                <input class="ace" type="checkbox" id="id-disable-check">
+                                <span class="lbl">账户设置</span>
+                            </label>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <!--按钮操作-->
+        <div class="Button_operation btn_width">
+            <button class="btn button_btn bg-deep-blue" type="button" id="submit">
+                提交
+            </button>
+            <a href="javascript:ovid()" onclick="javascript :history.back(-1);" class="btn btn-info button_btn">
+                <i class="fa fa-reply"></i>
+                返回上一步
+            </a>
+         </div>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    $(document).ready(function(){
+        /*******滚动条*******/
+        $("body").niceScroll({
+            cursorcolor:"#888888",
+            cursoropacitymax:1,
+            touchbehavior:false,
+            cursorwidth:"5px",
+            cursorborder:"0",
+            cursorborderradius:"5px"
+        });
+        /*按钮复选框选择*/
+        $(".Competence_name dt input:checkbox").click(function(){
+                $(this).closest("dl").find("dd input:checkbox").prop("checked",$(this).prop("checked"));
+            });
+        $(".permission_list input:checkbox").click(function(){
+                var l =$(this).parent().parent().find("input:checked").length;
+                if($(this).prop("checked")){
+                    $(this).closest("dl").find("dt input:checkbox").prop("checked",true);
+                    $(this).parents(".Competence_name").find("dt").first().find("input:checkbox").prop("checked",true);
+                }
+                else{
+                    if(l==0){
+                        $(this).closest("dl").find("dt input:checkbox").prop("checked",false);
+                    }
+                }
+            });
+        $('#submit').click(function(){
+            var form = new FormData($('#power')[0]);
+            $.ajax({
+                url  : 'http://www.tpshop.com/admin/power/addpow',
+                type : 'post',
+                data : form,
+                dataType    : 'text',
+                contentType : false,
+                processData : false,
+                success:function (msg){
+                    layer.msg('成功!',{icon:1,time:1000});
+                    setInterval(function(){
+                        window.location.href= history.back(-1);
+                    },2000)
+            },error:function(){
+                    layer.msg('服务器没响应!',{icon:0,time:1000});
+                }
+            })
+        });
+    });
+    /*字数限制*/
+    function checkLength(which) {
+        var maxChars = 200; //
+        if(which.value.length > maxChars){
+            layer.open({
+                icon:2,
+                title:'提示框',
+                content:'您出入的字数超多限制!',
+            });
+            // 超过限制的字数了就将 文本框中的内容按规定的字数 截取
+            which.value = which.value.substring(0,maxChars);
+            return false;
+        }else{
+            var curr = maxChars - which.value.length; //200 减去 当前输入的
+            document.getElementById("sy").innerHTML = curr.toString();
+            return true;
+        }
+    };
+</script>

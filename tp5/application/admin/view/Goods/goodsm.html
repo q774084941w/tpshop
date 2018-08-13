@@ -1,0 +1,356 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link href="http://www.tpshop.com/static/css/shop.css" type="text/css" rel="stylesheet" />
+<link href="http://www.tpshop.com/static/css/Sellerber.css" type="text/css"  rel="stylesheet" />
+<link href="http://www.tpshop.com/static/css/bkg_ui.css" type="text/css"  rel="stylesheet" />
+<link href="http://www.tpshop.com/static/font/css/font-awesome.min.css"  rel="stylesheet" type="text/css" />
+<script src="http://www.tpshop.com/static/js/jquery-1.9.1.min.js" type="text/javascript" ></script>
+<script type="text/javascript" src="http://www.tpshop.com/static/js/jquery.cookie.js"></script>
+<script src="http://www.tpshop.com/static/js/shopFrame.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/js/Sellerber.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/js/layer/layer.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/js/jquery.dataTables.min.js"></script>
+<script src="http://www.tpshop.com/static/js/jquery.dataTables.bootstrap.js"></script>
+<script src="http://www.tpshop.com/static/js/jquery.nicescroll.js"></script>
+    <script src="http://www.tpshop.com/static/layui/layui.js" type="text/javascript"></script>
+
+<!--[if lt IE 9]>
+<script src="http://www.tpshop.com/static/js/html5shiv.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/js/respond.min.js"></script>
+<script src="http://www.tpshop.com/static/js/css3-mediaqueries.js"  type="text/javascript"></script>
+  <![endif]-->
+<title>产品列表</title>
+</head>
+
+<body>
+<div class="margin" id="page_style">
+<div class="operation clearfix">
+<button class="btn button_btn btn-danger" type="button" onclick=""><i class="fa fa-trash-o"></i>&nbsp;删除</button>
+<span class="submenu"><a href="javascript:void(0)" name="Goods/addGoods" class="btn button_btn bg-green" title="添加产品"><i class="fa  fa-edit"></i>&nbsp;添加产品</a></span>
+<div class="search  clearfix">
+ <label class="label_name">商品搜索：</label><input name="sousuo" type="text"  class="form-control col-xs-6"/><button class="btn button_btn bg-purple " id="sousuo"  type="button"><i class="fa  fa-search"></i>&nbsp;搜索</button>
+
+</div>
+</div>
+<!--列表展示-->
+<div class="list_Exhibition margin-sx" style="height:400px;overflow: auto">
+ <table class="table table_list table_striped table-bordered" id="sample-table">
+  <thead>
+  <tr>
+  <th width="30"><label><input type="checkbox" class="ace"><span class="lbl"></span></label></th>
+   <th width="30">Id</th>
+   <th width="50">产品编号</th>
+   <th>产品名称</th>
+   <th width="150">原始图片</th>
+   <th width="100">产品现价</th>
+   <th width="100">分类</th>
+   <th width="100">库存</th>
+   <th width="100">添加日期</th>
+   <th width="50">新品</th>
+   <th width="100">上/下架</th>
+   <th width="50">推荐</th>
+   <th width="50">包邮</th>
+   <th width="350">操作</th>
+   </tr>
+  </thead>
+  <tbody>
+  {volist name='re' id='vo'}
+   <tr>
+       <td width="30"><label><input type="checkbox" class="ace"><span class="lbl"></span></label></td>
+       <td>{$vo.g_id}</td>
+       <td>{$vo.g_num}</td>
+       <td>{$vo.g_name}</td>
+       <td>
+           <img src="{$vo.original_img}" width="150" height="50">
+       </td>
+       <td>{$vo.g_pri}</td>
+       <td>{$vo.cla_id}</td>
+       <td>{$vo.sto_num}</td>
+       <td>{$vo.on_time}</td>
+       <td>
+           {if($vo.is_new==1)}
+           <input type="text" value="{$vo.g_id}" style="display: none"/><input type="checkbox" value="None"  name="is_new" checked />
+           {else /}
+           <input type="text" value="{$vo.g_id}" style="display: none"/><input type="checkbox" value="None" name="is_new"/>
+           {/if}
+       </td>
+       <td>
+           {if($vo.is_on_sale==1)}
+           <input type="text" value="{$vo.g_id}" style="display: none"/><input type="checkbox" value="None"  name="is_on_sale" checked />
+           {else /}
+           <input type="text" value="{$vo.g_id}" style="display: none"/><input type="checkbox" value="None" name="is_on_sale"/>
+           {/if}
+       </td>
+       <td>
+           {if($vo.is_recommend==1)}
+           <input type="text" value="{$vo.g_id}" style="display: none"/><input type="checkbox" value="None"  name="is_recommend" checked />
+           {else /}
+           <input type="text" value="{$vo.g_id}" style="display: none"/><input type="checkbox" value="None" name="is_recommend"/>
+           {/if}
+       </td>
+       <td>
+           {if($vo.is_free_shipping==1)}
+           <input type="text" value="{$vo.g_id}" style="display: none"/><input type="checkbox" value="None"  name="is_free_shipping" checked />
+           {else /}
+           <input type="text" value="{$vo.g_id}" style="display: none"/><input type="checkbox" value="None" name="is_free_shipping"/>
+           {/if}
+       </td>
+       <td>
+           <input type="text" value="{$vo.g_id}" style="display: none"/><button class="btn button_btn bg-deep-blue" name="xiu" type="button">修改</button>
+           <input type="text" value="{$vo.g_id}" style="display: none"/><button class="btn button_btn bg-red" name="dele" type="button">删除</button>
+           <input type="text" value="{$vo.g_id}" style="display: none"/><button class="btn button_btn bg-yellow" name="dele" type="button">规格属性</button>
+           <input type="text" value="{$vo.g_id}" style="display: none"/><button class="btn button_btn bg-orange" name="dele" type="button">图片</button>
+       </td>
+   </tr>
+  {/volist}
+  <tr>
+      {$re->render()}
+  </tr>
+  </tbody>
+ </table>
+</div>
+</div>
+<script type="text/javascript">
+    $('#sousuo').click(function(){
+        var g_name = $("input[name='sousuo']").val();
+        window.location.href = "http://www.tpshop.com/admin/Goods?g_name="+g_name;
+    });
+    //修改
+    $('.bg-deep-blue').click(function(){
+        var g_id = $(this).prev().val();
+        window.location.href = 'http://www.tpshop.com/admin/Goods/updataGoods?g_id='+g_id;
+    });
+    //删除商品
+    $('.bg-red').click(function(){
+        var g_id = $(this).prev().val();
+        layer.confirm('您确定删除么？', {
+            btn: ['删除','取消'] //按钮
+        }, function(){
+            $.ajax({
+                url:"http://www.tpshop.com/Admin/Goods/delete_goods",
+                type:'POST',
+                async:true,
+                data:{
+                    'g_id':g_id
+                },
+                timeout:5000,
+                dataType:'json',
+                success:function (data) {
+                    console.log(data);
+                    if(data.sess==1){
+                        layer.alert(data.mess,{
+                            btn: ['刷新页面'] //按钮
+                        }, function(){
+                            window.location.reload();
+                        });
+                    }else {
+                        layer.alert(data.mess);
+                    }
+                }
+            });
+        });
+    });
+    //商品规格属性
+    $('.bg-yellow').click(function () {
+        var id = $(this).prev().val();
+        layer.open({
+            type: 2,
+            area: ['1000px', '500px'],
+            title: '规格属性信息',
+            shade: 0.6,
+            anim: 2,
+            content: 'http://www.tpshop.com/Admin/Goods/goodsSpec/?Id='+id,
+            cancel: function () {
+                //右上角关闭回调
+            }
+        });
+    });
+    //商品图片
+    $(".bg-orange").click(function(){
+        var id = $(this).prev().val();
+        layer.open({
+            type: 2,
+            area: ['800px', '500px'],
+            title: '商品图片信息',
+            shade: 0.6,
+            anim: 2,
+            content: 'http://www.tpshop.com/Admin/Goods/goodsImg/?Id='+id,
+            cancel: function () {
+                //右上角关闭回调
+            }
+        });
+    });
+    //修改是否新品事件
+        $("input[name='is_new']").click(function () {
+        //alert($(this).prev().val());
+        if($(this).is(':checked')){
+            $.ajax({
+                url:"http://www.tpshop.com/Admin/Goods/goods_new",
+                type:'POST',
+                async:true,
+                data:{
+                    'g_id':$(this).prev().val(),
+                    'check':1
+                },
+                timeout:5000,
+                dataType:'json',
+                success:function (data) {
+
+                }
+            });
+        }else {
+            $.ajax({
+                url:"http://www.tpshop.com/Admin/Goods/goods_new",
+                type:'POST',
+                async:true,
+                data:{
+                    'g_id':$(this).prev().val(),
+                    'check':0
+                },
+                timeout:5000,
+                dataType:'json',
+                success:function (data) {
+
+                }
+            });
+        }
+    })
+    //修改是否推荐事件
+    $("input[name='is_recommend']").click(function () {
+        //alert($(this).prev().val());
+        if($(this).is(':checked')){
+            $.ajax({
+                url:"http://www.tpshop.com/Admin/Goods/goods_recommend",
+                type:'POST',
+                async:true,
+                data:{
+                    'g_id':$(this).prev().val(),
+                    'check':1
+                },
+                timeout:5000,
+                dataType:'json',
+                success:function (data) {
+
+                }
+            });
+        }else {
+            $.ajax({
+                url:"http://www.tpshop.com/Admin/Goods/goods_recommend",
+                type:'POST',
+                async:true,
+                data:{
+                    'g_id':$(this).prev().val(),
+                    'check':0
+                },
+                timeout:5000,
+                dataType:'json',
+                success:function (data) {
+
+                }
+            });
+        }
+    })
+    //修改是否包邮事件
+    $("input[name='is_free_shipping']").click(function () {
+        //alert($(this).prev().val());
+        if($(this).is(':checked')){
+            $.ajax({
+                url:"http://www.tpshop.com/Admin/Goods/goods_shipping",
+                type:'POST',
+                async:true,
+                data:{
+                    'g_id':$(this).prev().val(),
+                    'check':1
+                },
+                timeout:5000,
+                dataType:'json',
+                success:function (data) {
+
+                }
+            });
+        }else {
+            $.ajax({
+                url:"http://www.tpshop.com/Admin/Goods/goods_shipping",
+                type:'POST',
+                async:true,
+                data:{
+                    'g_id':$(this).prev().val(),
+                    'check':0
+                },
+                timeout:5000,
+                dataType:'json',
+                success:function (data) {
+
+                }
+            });
+        }
+    })
+    //修改是否上架事件
+    $("input[name='is_on_sale']").click(function () {
+        //alert($(this).prev().val());
+        if($(this).is(':checked')){
+            $.ajax({
+                url:"http://www.tpshop.com/Admin/Goods/goods_sale",
+                type:'POST',
+                async:true,
+                data:{
+                    'g_id':$(this).prev().val(),
+                    'check':1
+                },
+                timeout:5000,
+                dataType:'json',
+                success:function (data) {
+
+                }
+            });
+        }else {
+            $.ajax({
+                url:"http://www.tpshop.com/Admin/Goods/goods_sale",
+                type:'POST',
+                async:true,
+                data:{
+                    'g_id':$(this).prev().val(),
+                    'check':0
+                },
+                timeout:5000,
+                dataType:'json',
+                success:function (data) {
+
+                }
+            });
+        }
+    })
+</script>
+</body>
+
+</html>
+<script type="text/javascript">
+//设置框架
+ $(function() { 
+	$("#page_style").frame({
+		float : 'left',
+		menu_nav:'.operation',
+		color_btn:'.skin_select'
+	});
+});
+
+/*********滚动事件*********/
+$("#page_style").niceScroll({  
+	cursorcolor:"#888888",  
+	cursoropacitymax:1,  
+	touchbehavior:false,  
+	cursorwidth:"5px",  
+	cursorborder:"0",  
+	cursorborderradius:"5px"  
+});
+
+ /*$(document).ready(function(){
+	var ReturnWindow=$('#contents', parent.document); 
+	var width = ReturnWindow.css("width");
+	 $("#sample-table").css({"width":width-20+"px"});
+	  $('#sample-table').location.replace(location.href);
+	 });*/
+</script>

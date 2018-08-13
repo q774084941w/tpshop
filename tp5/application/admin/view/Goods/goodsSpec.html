@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link href="http://www.tpshop.com/static/css/shop.css" type="text/css" rel="stylesheet" />
+<link href="http://www.tpshop.com/static/css/Sellerber.css" type="text/css"  rel="stylesheet" />
+<link href="http://www.tpshop.com/static/css/bkg_ui.css" type="text/css"  rel="stylesheet" />
+<link href="http://www.tpshop.com/static/font/css/font-awesome.min.css"  rel="stylesheet" type="text/css" />
+<script src="http://www.tpshop.com/static/js/jquery-1.9.1.min.js" type="text/javascript" ></script>
+<script src="http://www.tpshop.com/static/js/Sellerber.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/js/jquery.dataTables.min.js"></script>
+<script src="http://www.tpshop.com/static/js/jquery.dataTables.bootstrap.js"></script>
+<script src="http://www.tpshop.com/static/js/layer/layer.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/js/laydate/laydate.js" type="text/javascript"></script>
+<title>添加商品分类</title>
+</head>
+
+<body>
+<div class="list_Exhibition margin-sx" style="width: 1000px;height: 400px;overflow: auto">
+    <table class="table table_list table_striped table-bordered" id="sample-table">
+        <thead>
+        <tr>
+            <th width="100">名称</th>
+            <th>规格</th>
+            <th width="150">图片</th>
+            <th width="100">价格</th>
+            <th width="100">库存</th>
+            <th width="100">修改日期</th>
+            <th width="150">操作</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        {volist name='re' id='vo'}
+        {if($vo.spec_id !=0)}
+        <tr>
+        <td><input name="key_name1" type="text" value="{$vo.key_name}"  class="col-xs-6" style="width: 80%"/></td>
+        <td><input name="key1" type="text" value="{$vo.key}" class="col-xs-6" style="width: 80%"/></td>
+        <td>
+            <img src="{$vo.spec_img}" name="img" width="100" height="50">
+        </td>
+        <td><input name="spec_price1" type="text" value="{$vo.spec_price}"  class="col-xs-6" style="width: 80%"/></td>
+        <td><input name="sto_count1" type="text" value="{$vo.sto_count}" class="col-xs-6" style="width: 80%"/></td>
+        <td>{$vo.updata_time}</td>
+        <td>
+            <input type="text" value="{$vo.spec_id}" style="display: none"><button class="btn button_btn bg-deep-blue" name="xiu" type="button">修改</button>
+            <input type="text" value="{$vo.spec_id}" style="display: none"><button class="btn button_btn bg-deep-gray" name="xiu" type="button">删除</button>
+
+        </td>
+        </tr>
+        {/if}
+        {/volist}
+
+        <tr>
+            <td style="display: none"><input type="text" name="g_id" value="{$g_id}"></td>
+            <td><input name="key_name" type="text"  class="col-xs-6" style="width: 80%"/></td>
+            <td><input name="key" type="text"  class="col-xs-6" style="width: 80%"/></td>
+            <td>
+                <input name="spec_img" type="file" id="spec_img"  class="col-xs-6" style="width: 80%"/><img src="" id="img" width="100" height="50" title="图片">
+            </td>
+            <td><input name="spec_price" type="text"  class="col-xs-6" style="width: 80%"/></td>
+            <td><input name="sto_count" type="text"  class="col-xs-6" style="width: 80%"/></td>
+            <td>0000-00-00</td>
+            <td>
+                <button class="btn button_btn bg-green" id="tianjia" type="button">添加</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="Button_operation btn_width">
+    <button class="btn button_btn bg-gray" id="close" type="button">关闭</button>
+</div>
+<script type="text/javascript">
+    //修改
+    $('.bg-deep-blue').click(function(){
+        var spec_id = $(this).prev().val();
+        var key_name = $(this).parent().parent().find("input[name='key_name1']").val();
+        var key = $(this).parent().parent().find("input[name='key1']").val();
+        var spec_price = $(this).parent().parent().find("input[name='spec_price1']").val();
+        var sto_count =$(this).parent().parent().find("input[name='sto_count1']").val();
+        if(key_name.length == 0){
+            layer.alert("请填写规格名称");
+        }else if(key.length == 0){
+            layer.alert("请填写规格");
+        }else if(spec_price.length ==0){
+            layer.alert("请填写价格");
+        }else if(sto_count.length == 0){
+            layer.alert("请填写库存");
+        }else {
+            $.ajax({
+                url:"http://www.tpshop.com/admin/Goods/updataSpec",
+                type:"POST",
+                data:{
+                    'key_name':key_name,
+                    'key':key,
+                    'spec_price':spec_price,
+                    'sto_count':sto_count,
+                    'spec_id':spec_id,
+                    'g_id':$('input[name="g_id"]').val()
+                },
+                async:true,
+                timeout:5000,
+                dataType:'json',
+                success:function(data){
+                    console.log(data);
+                    if(data.sess == 1){
+                        layer.alert(data.mess,{
+                            btn: ['确定'] //按钮
+                        }, function(){
+                            window.location.reload();
+                        });
+                    }else {
+                        layer.alert(data.mess);
+                    }
+                }
+            })
+        }
+        //console.log(key_name,key,spec_price,sto_count);
+
+    });
+    //删除
+    $(".bg-deep-gray").click(function(){
+        var spec_id = $(this).prev().val();
+        layer.confirm('您确定删除么？', {
+            btn: ['删除','取消'] //按钮
+        }, function(){
+            $.ajax({
+                url:"http://www.tpshop.com/Admin/Goods/delete_spec",
+                type:'POST',
+                async:true,
+                data:{
+                    'spec_id':spec_id,
+                    'g_id':$('input[name="g_id"]').val()
+                },
+                timeout:5000,
+                dataType:'json',
+                success:function (data) {
+                    console.log(data);
+                    if(data.sess==1){
+                        layer.alert(data.mess,{
+                            btn: ['刷新页面'] //按钮
+                        }, function(){
+                            window.location.reload();
+                        });
+                    }else {
+                        layer.alert(data.mess);
+                    }
+                }
+            });
+        });
+    });
+    //关闭
+    $("#close").click(function(){
+        var index=parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    });
+    //添加
+    $("#tianjia").click(function(){
+        var key_name = $("input[name='key_name']").val();
+        var key = $("input[name='key']").val();
+        var spec_price = $("input[name='spec_price']").val();
+        var sto_count = $("input[name='sto_count']").val();
+        if(key_name.length == 0){
+            layer.alert("请填写规格名称");
+        }else if(key.length == 0){
+            layer.alert("请填写规格");
+        }else if(spec_price.length ==0){
+            layer.alert("请填写价格");
+        }else if(sto_count.length == 0){
+            layer.alert("请填写库存");
+        }else {
+            var formdata = new FormData();
+            // 将文件追加到 formdata对象中。
+            formdata.append("myfile",document.getElementById('spec_img').files[0]);
+
+            $.ajax({
+                type: "POST",
+                url: "http://www.tpshop.com/Admin/Goods/uploadGoodImg",
+                data: formdata,
+                /**
+                 * 必须false才会避开jQuery对 formdata 的默认处理
+                 * XMLHttpRequest会对 formdata 进行正确的处理
+                 */
+                processData: false,
+                // 告诉jQuery不要去设置Content-Type请求头
+                contentType: false,
+                dataType: "json",
+                success: function (data) {
+                    var spec_img = data.mes;
+                    console.log(spec_img);
+                    $.ajax({
+                        url:"http://www.tpshop.com/admin/Goods/addspec",
+                        type:"POST",
+                        data:{
+                            'key_name':key_name,
+                            'key':key,
+                            'spec_img':spec_img,
+                            'spec_price':spec_price,
+                            'sto_count':sto_count,
+                            'g_id':$('input[name="g_id"]').val()
+                        },
+                        async:true,
+                        timeout:5000,
+                        dataType:'json',
+                        success:function(data){
+                            console.log(data);
+                            if(data.sess == 1){
+                                layer.alert(data.mess,{
+                                    btn: ['确定'] //按钮
+                                }, function(){
+                                    window.location.reload();
+                                });
+                            }else {
+                                layer.alert(data.mess);
+                            }
+                        }
+                    })
+                }
+            })
+        }
+    });
+    $("input[name='spec_img1']").change(function(){
+        var objUrl = getObjectURL(this.files[0]);
+        if(objUrl){
+            $(this).next().attr('src',objUrl);
+        }
+    });
+    $("input[name='spec_img']").change(function(){
+        var objUrl = getObjectURL(this.files[0]);
+        if(objUrl){
+            $('#img').attr('src',objUrl);
+        }
+    });
+    function getObjectURL(file) {
+        var url = null ;
+        if (window.createObjectURL!=undefined) { // basic
+            url = window.createObjectURL(file) ;
+        } else if (window.URL!=undefined) { // mozilla(firefox)
+            url = window.URL.createObjectURL(file) ;
+        } else if (window.webkitURL!=undefined) { // webkit or chrome
+            url = window.webkitURL.createObjectURL(file) ;
+        }
+        return url ;
+    }
+</script>
+</body>
+</html>
+

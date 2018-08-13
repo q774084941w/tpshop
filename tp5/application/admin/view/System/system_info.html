@@ -1,0 +1,218 @@
+<!DOCTYPE>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link href="http://www.tpshop.com/static/css/shop.css" type="text/css" rel="stylesheet" />
+<link href="http://www.tpshop.com/static/css/Sellerber.css" type="text/css"  rel="stylesheet" />
+<link href="http://www.tpshop.com/static/css/bkg_ui.css" type="text/css"  rel="stylesheet" />
+<link href="http://www.tpshop.com/static/font/css/font-awesome.min.css"  rel="stylesheet" type="text/css" />
+<script src="http://www.tpshop.com/static/js/jquery-1.9.1.min.js" type="text/javascript" ></script>
+<script src="http://www.tpshop.com/static/js/jquery.SuperSlide.2.1.1.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/js/Sellerber.js" type="text/javascript"></script>
+<script type="text/javascript" src="http://www.tpshop.com/static/js/jquery.cookie.js"></script>
+<script src="http://www.tpshop.com/static/js/shopFrame.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/js/layer/layer.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/js/laydate/laydate.js" type="text/javascript"></script>
+
+<script src="http://www.tpshop.com/static/js/html5shiv.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/js/respond.min.js"></script>
+<script src="http://www.tpshop.com/static/js/css3-mediaqueries.js"  type="text/javascript"></script>
+
+<title>系统信息</title>
+</head>
+
+<body>
+<div class="margin">
+ <div class="System_Setup slideBox" id="System_Setup">
+  <div class="hd">
+  <ul>
+   <li>基本设置</li>
+  </ul>
+  </div>
+  <div class="bd">
+      <form method="post" id="myform"  action="{:url('http://tpshop.com/admin/System/uodel')}" enctype="multipart/form-data" >
+   <ul>
+     <div class="add_style">
+  <li class="clearfix"><label class="label_name col-xs-1">网站备案号：&nbsp;&nbsp;</label><div class="Add_content col-xs-11"><input name="sit_filing"  id="sit_filing" type="text" value="{$sit_filing}" class="col-xs-6"/></div>  </li>
+  <li class="clearfix"><label class="label_name col-xs-1">网站名称：&nbsp;&nbsp;</label><div class="Add_content col-xs-11"><input name="sit_name"  id="sit_name" type="text"  value="{$sit_name}" class="col-xs-4"/><em class="Prompt"></em></div>
+  </li>
+      <li class="clearfix">
+       <label class="label_name col-xs-1">网站logo：&nbsp;&nbsp;</label>
+       <div class="Add_content col-xs-11" id="Upload">
+        <div class="images_Upload clearfix" id="images_Upload">
+         <span class="Upload_img"><input name="sit_logo"  id="sit_logo"  type="file" /></span>
+         <a href="{$sit_logo}" class="operating" title="预览"><i class="fa  fa-image" ></i></a>
+         <em class="Prompt">请使用120*120大小的图片</em>
+        </div>
+       </div>
+      </li>
+      <li class="clearfix">
+       <label class="label_name col-xs-1">网站用户中心logo：&nbsp;&nbsp;</label>
+       <div class="Add_content col-xs-11" id="">
+        <div class="images_Upload clearfix" >
+         <span class="Upload_img"><input name="sit_user_logo" id="sit_user_logo"  type="file" /></span>
+         <a href="{$sit_user_logo}" class="operating" title="预览" id="operating" ><i class="fa  fa-image" ></i></a>
+         <em class="Prompt">请使用120*120大小的图片</em>
+        </div>
+       </div>
+      </li>
+      <li class="clearfix">
+       <label class="label_name col-xs-1">网站标题：&nbsp;&nbsp;</label><div class="Add_content col-xs-11"><input name="sit_title" id="sit_title" value="{$sit_title}"  type="text"  class="col-xs-6"/></div>
+      </li>
+      <li class="clearfix">
+       <label class="label_name col-xs-1">网站描述：&nbsp;&nbsp;</label><div class="Add_content col-xs-11"><textarea name="sit_describe" id="sit_describe"cols="" rows="" class="col-xs-6" style="height:150px;">{$sit_describe}</textarea></div>
+      </li>
+  <li class="clearfix"><label class="label_name col-xs-1">网站关&nbsp;键&nbsp;字：&nbsp;&nbsp;</label><div class="Add_content col-xs-11"><input name="sit_key" value="{$sit_key}"   id="sit_key" type="text" class="col-xs-4"/><em class="Prompt"> 请用","分隔关键字</em></div>
+     </li>
+      <li class="clearfix">
+       <label class="label_name col-xs-1">联系手机：&nbsp;&nbsp;</label><div class="Add_content col-xs-11"><input name="sit_phone" id="sit_phone"  value="{$sit_phone}"  type="text"  class="col-xs-6"/></div>
+      </li>
+      <li class="clearfix">
+       <label class="label_name col-xs-1">联系电话：&nbsp;&nbsp;</label><div class="Add_content col-xs-11"><input name="sit_tel" id="sit_tel"  value="{$sit_tel}"  type="text"  class="col-xs-6"/></div>
+      </li>
+       <li class="clearfix">
+     <label class="label_name col-xs-1">公司地址：&nbsp;&nbsp;</label><div class="Add_content col-xs-11"><input name="sit_site" id="sit_site"  value="{$sit_site}"  type="text"  class="col-xs-6"/></div>
+      </li>
+
+       <li class="clearfix">
+     <label class="label_name col-xs-1">客服QQ：&nbsp;&nbsp;</label><div class="Add_content col-xs-11"><input name="sit_qq" id="sit_qq"  value="{$sit_qq}"  type="text"  class="col-xs-6"/></div>
+      </li>
+      <li class="clearfix">
+     <label class="label_name col-xs-1"></label><div class="Add_content col-xs-11"><button class="btn button_btn bg-deep-blue" id="but" type="submit">保存提交</button></div>
+      </li>
+     </div>
+   </ul>
+      </form>
+  </div>
+
+ </div>
+</div>
+</body>
+</html>
+<script>
+jQuery(".slideBox").slide({trigger:"click",easing:"easeOutElastic"});
+/*****************/
+function preview_img(){
+	  layer.open({
+	  type: 1,
+	  title: false,
+	  closeBtn: 0,
+	  area: '120px',
+	  skin: 'layui-layer-nobg', //没有背景色
+	  shadeClose: true,
+	  content: $('#Picture_Preview')
+	});
+
+	}
+
+/*******滚动条*******/
+$("body").niceScroll({
+	cursorcolor:"#888888",
+	cursoropacitymax:1,
+	touchbehavior:false,
+	cursorwidth:"5px",
+	cursorborder:"0",
+	cursorborderradius:"5px"
+});
+$("input[name='sit_logo']").change(function(){
+    var objUrl = getObjectURL(this.files[0]);
+    if(objUrl){
+        $('#img').attr('src',objUrl);
+    }
+});
+/*$(document).ready(function () {
+
+    var postUrl="System/uode";
+    $("#but").click(function () {
+        $.post(postUrl,{
+            'sit_filing':$('#sit_filing').val(),
+            'sit_name':$('#sit_name').val(),
+            'sit_logo':$('#sit_logo').val(),
+           /!* 'sit_user_logo':$('#sit_user_logo').val(),*!/
+            'sit_title':$('#sit_title').val(),
+            'sit_describe':$('#sit_describe').val(),
+            'sit_key':$('#sit_key').val(),
+            'sit_phone':$('#sit_phone').val(),
+            'sit_tel':$('#sit_tel').val(),
+            'sit_site':$('#sit_site').val(),
+            'sit_qq':$('#sit_qq').val()
+        },function (date) {
+            console.log(date);
+
+        })
+
+    });
+});*/
+/*
+
+$("#but").click(function () {
+    var formdata = new FormData();
+    formdata.append("myfile",document.getElementById('sit_user_logo').files[0]);
+                 $.ajax({
+                     url:"http://www.tpshop.com/admin/System/uode",
+                     type:"POST",
+                     data:
+                         'sit_filing':$('#sit_filing').val(),
+                         'sit_name':$('#sit_name').val(),
+                         'sit_logo':$('#sit_logo').val(),
+                         'sit_user_logo':$('#sit_user_logo').val(),
+                         'sit_title':$('#sit_title').val(),
+                         'sit_describe':$('#sit_describe').val(),
+                         'sit_key':$('#sit_key').val(),
+                         'sit_phone':$('#sit_phone').val(),
+                         'sit_tel':$('#sit_tel').val(),
+                         'sit_site':$('#sit_site').val(),
+                         'sit_qq':$('#sit_qq').val()
+                     },
+                     async:true,
+                     timeout:5000,
+                     dataType:'json',
+                     success:function(data) {
+                         console.log(data);
+                         if(data.sess == 1){
+                             layer.alert(data.mess)
+                         }else{
+                             layer.alert(data.mess)
+                         }
+                     }
+                 });
+
+*/
+$("#but").click(function() {
+
+    $.ajax({
+        url: "http://www.tpshop.com/admin/System/uodel",
+        type: 'POST',
+        astype: 'true',
+        cache: false,
+        processData: false,
+        contentType: false,
+        data: {
+            'sit_filing': $('#sit_filing').val(),
+            'sit_name': $('#sit_name').val(),
+            'sit_logo': $('#sit_logo').val(),
+            'sit_user_logo': $('#sit_user_logo').val(),
+            'sit_title': $('#sit_title').val(),
+            'sit_describe': $('#sit_describe').val(),
+            'sit_key': $('#sit_key').val(),
+            'sit_phone': $('#sit_phone').val(),
+            'sit_tel': $('#sit_tel').val(),
+            'sit_site': $('#sit_site').val(),
+            'sit_qq': $('#sit_qq').val()
+        },
+        async: true,
+        timeout: 5000,
+        dataType: 'json',
+        success: function (data) {
+            console.log(data);
+            if (data.sess == 1) {
+                layer.alert(data.mess)
+            } else {
+                layer.alert(data.mess)
+            }
+        }
+    })
+});
+
+</script>

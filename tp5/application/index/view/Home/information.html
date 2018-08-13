@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="keywords" content="{$sit_title}">
+		<meta name="description" content="{$sit_describe}">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>个人资料</title>
+		<link href="/static/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
+		<link href="/static/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css">
+
+		<link href="__CSS__/personal.css" rel="stylesheet" type="text/css">
+		<link href="__CSS__/infstyle.css" rel="stylesheet" type="text/css">
+		<script src="/static/AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
+		<script src="/static/AmazeUI-2.4.2/assets/js/amazeui.js"></script>
+		<script src="/static/js/layer/layer.js" type="text/javascript"></script>
+
+	</head>
+	<body>
+		<!--头 -->
+		{include file='index@incloude/head'/}
+		<div class="center">
+			<div class="col-main">
+				<div class="main-wrap">
+
+					<div class="user-info">
+						<!--标题 -->
+						<div class="am-cf am-padding">
+							<div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">个人资料</strong> / <small>Personal&nbsp;information</small></div>
+						</div>
+						<hr/>
+
+						<!--头像 -->
+						<form class="am-form am-form-horizontal" id="myform" enctype="multipart/form-data">
+						<div class="user-infoPic">
+
+							<div class="filePic">
+								<input type="file" class="inputPic" allowexts="gif,jpeg,jpg,png,bmp" accept="image/*" id="m_img" name="m_img" value="{$img}">
+								<img class="am-circle am-img-thumbnail" src="{$img}" alt="" id="myimg" />
+							</div>
+
+							<p class="am-form-help">头像</p>
+
+							<div class="info-m">
+								<div><b>用户名：<i>{$name}</i></b></div>
+								<div class="vip">
+                                      <span></span><a href="#">会员专享</a>
+								</div>
+							</div>
+						</div>
+
+						<!--个人信息 -->
+						<div class="info-main">
+
+								<div class="am-form-group">
+									<label for="user-name" class="am-form-label">姓名</label>
+									<div class="am-form-content">
+										<input type="text" id="user-name2" placeholder="name" value="{$man.m_name}" name="m_name">
+                                         
+									</div>
+								</div>
+								<div class="am-form-group">
+									<label class="am-form-label">性别</label>
+									<div class="am-form-content sex">
+										<label class="am-radio-inline">
+											<input type="radio" {$man.m_sex=='男'?'checked':''} name="m_sex" value="男" data-am-ucheck> 男
+										</label>
+										<label class="am-radio-inline">
+											<input type="radio" name="m_sex"  {$man.m_sex=='女'?'checked':''}   value="女" data-am-ucheck> 女
+										</label>
+										<label class="am-radio-inline">
+											<input type="radio" name="m_sex"  {$man.m_sex=='保密'?'checked':''} value="保密" data-am-ucheck> 保密
+										</label>
+									</div>
+								</div>
+								<div class="am-form-group">
+									<label class="am-form-label">生日</label>
+									<div class="am-form-content birth">
+										<input type="date" name="m_birthday" value="{$man.m_birthday}">
+									</div>
+							
+								</div>
+								<div class="am-form-group">
+									<label for="user-phone" class="am-form-label">电话</label>
+									<div class="am-form-content">
+										<input id="user-phone" placeholder="telephonenumber" type="tel" name="u_phone" value="{$user.u_phone}">
+
+									</div>
+								</div>
+								<div class="am-form-group">
+									<label for="user-email" class="am-form-label">电子邮件</label>
+									<div class="am-form-content">
+										<input id="user-email" placeholder="Email" type="email" name="u_email" value="{$user.u_email}">
+
+									</div>
+								</div>
+								<div class="am-form-group">
+									<label for="user-email" class="am-form-label">收货地址</label>
+									<div class="am-form-content">
+										<div class="birth-select2">
+											<select id="Province" onchange="showCity()"  name="province">
+												<option value="0">
+													-请选择-
+												</option>
+											</select>
+											<em>省</em>
+										</div>
+										<div class="birth-select2">
+											<select id="City" onchange="showDistrict()"  name="city">
+												<option value="0">
+													-请选择-
+												</option>
+											</select>
+											<em>市</em></div>
+										<div class="birth-select2">
+											<select id="District" name="district">
+												<option value="0">
+													-请选择-
+												</option>
+											</select>
+											<em>县</em></div>
+									</div>
+								</div>
+								<div class="am-form-group">
+									<label for="user-name" class="am-form-label">更详细地址</label>
+									<div class="am-form-content">
+										<textarea class="" rows="3" id="more_address" placeholder="输入详细地址">{$address}</textarea>
+										<small>100字以内写出你的详细地址...</small>
+									</div>
+								</div>
+								<div class="info-btn">
+									<div class="am-btn am-btn-danger" id="submit">保存修改</div>
+								</div>
+
+						</div>
+					</form>
+					</div>
+
+				</div>
+				<!--底部-->
+				{include file='index@incloude/footer' /}
+			</div>
+
+			{include file='index@incloude/manLeft' /}
+		</div>
+
+	</body>
+	<script>
+		/****城市三级联动****/
+		/***省级**/
+		var Province = 0;
+        $(function () {
+            $.get('/static/city/Provinces.xml',function (msg) {
+                Province =msg;
+                $(msg).find('Province').each(function () {
+                    var pro=$(this).attr('ProvinceName');
+                    var id=$(this).attr('ID');
+                    $('#Province').append("<option value='"+id+"'>"+pro+"</option>");
+                })
+            },'xml')
+        });
+		/***市级**/
+        var city=0;
+        function showCity() {
+            var pid=$('#Province').val();
+            if(city===0){
+                $.get('/static/city/Cities.xml',function (msg) {
+                    city=msg;
+                    $('#City').empty();
+                    $('#City').append("<option value='0'>-请选择-</option>");
+                    $('#District').empty();
+                    $('#District').append("<option value='0'>-请选择-</option>");
+                    $(city).find('City[PID='+pid+']').each(function () {
+                        var pro=$(this).attr('CityName');
+                        var id=$(this).attr('ID');
+                        $('#City').append("<option value='"+id+"'>"+pro+"</option>");
+                    })
+                },'xml');
+            }else {
+                $('#City').empty();
+                $('#City').append("<option value='0'>-请选择-</option>");
+                $('#District').empty();
+                $('#District').append("<option value='0'>-请选择-</option>");
+                $(city).find('City[PID='+pid+']').each(function () {
+                    var pro=$(this).attr('CityName');
+                    var id=$(this).attr('ID');
+                    $('#City').append("<option value='"+id+"'>"+pro+"</option>");
+                })
+            }
+
+        }
+		/***县级**/
+        var Districts = 0;
+        function showDistrict() {
+            var cid=$('#City').val();
+            if(Districts===0){
+                $.get('/static/city/Districts.xml',function (msg) {
+                    Districts=msg;
+                    $('#District').empty();
+                    $('#District').append("<option value='0'>-请选择-</option>");
+                    $(Districts).find('District[CID='+cid+']').each(function () {
+                        var pro=$(this).attr('DistrictName');
+                        var id=$(this).attr('ID');
+                        $('#District').append("<option value='"+id+"'>"+pro+"</option>");
+                    })
+                },'xml');
+            }else {
+                $('#District').empty();
+                $('#District').append("<option value='0'>-请选择-</option>");
+                $(Districts).find('District[CID='+cid+']').each(function () {
+                    var pro=$(this).attr('DistrictName');
+                    var id=$(this).attr('ID');
+                    $('#District').append("<option value='"+id+"'>"+pro+"</option>");
+                })
+            }
+        }
+		/***信息修改***/
+        $('#submit').click(function () {
+            var address = gitaddress();
+            var form  = new FormData($('#myform')[0]);
+            form.append('address',address);
+            $.ajax({
+                url  : '{:request()->domain()}/index/home/changeMy',
+                type : 'post',
+                data : form,
+                dataType    : 'text',
+                contentType : false,
+                processData : false,
+				success     : function (msg) {
+					if(msg==1100){
+						layer.alert('保存成功！',{
+							title: '提示框',
+							icon :1,
+							yes  : function () {
+								location.assign(location);
+							}
+						});
+					}else {
+						layer.alert(msg,{
+							title: '提示框',
+							icon:2
+						})
+					}
+                },
+				error       : function(msg){
+					layer.alert(msg,{
+						title: '提示框',
+						icon :0
+					});
+				},
+			})
+        });
+		/***获取地址**/
+		function gitaddress() {
+            var P_id = $('#Province').val();
+            var C_id = $('#City').val();
+            var D_id = $('#District').val();
+            var address = '';
+			if(P_id!=0){
+				address += $(Province).find('Province[ID='+P_id+']').attr('ProvinceName')+',';
+				address += $(city).find('City[ID='+C_id+']').attr('CityName')+',';
+				address += $(Districts).find('District[ID='+D_id+']').attr('DistrictName')+',';
+			}
+            address += $('#more_address').val();
+            return address;
+        }
+		/***图片预览**/
+		$('#m_img').on("change",function(){
+			var srcs = getObjectURL(this.files[0]);
+			$('#myimg').attr("src",srcs).attr('layer-src',srcs);
+		});
+		function getObjectURL(file) {
+			var url = null;
+			if (window.createObjectURL != undefined) {
+				url = window.createObjectURL(file)
+			} else if (window.URL != undefined) {
+				url = window.URL.createObjectURL(file)
+			} else if (window.webkitURL != undefined) {
+				url = window.webkitURL.createObjectURL(file)
+			}
+			return url
+		}
+	</script>
+
+</html>

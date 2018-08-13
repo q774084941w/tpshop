@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link href="http://www.tpshop.com/static/css/shop.css" type="text/css" rel="stylesheet" />
+<link href="http://www.tpshop.com/static/css/Sellerber.css" type="text/css"  rel="stylesheet" />
+<link href="http://www.tpshop.com/static/css/bkg_ui.css" type="text/css"  rel="stylesheet" />
+<link href="http://www.tpshop.com/static/font/css/font-awesome.min.css"  rel="stylesheet" type="text/css" />
+<script src="http://www.tpshop.com/static/js/jquery-1.9.1.min.js" type="text/javascript" ></script>
+<script src="http://www.tpshop.com/static/js/layer/layer.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/js/laydate/laydate.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/layui/layui.js" type="text/javascript"></script>
+<title>添加子分类</title>
+</head>
+
+<body>
+<div class="margin">
+<div class="add_style">
+ <ul>
+  <li class="clearfix"><label class="label_name col-xs-1"><i>*</i>分类名称：&nbsp;&nbsp;</label><div class="Add_content col-xs-11"><input name="cla_name" type="text"  class="col-xs-6"/></div></li>
+     <li class="clearfix">
+         <label class="label_name col-xs-1"><i>*</i>上级分类：&nbsp;&nbsp;</label>
+         <div class="col-sm-4" style="width: 220px">
+             <select class="form-control" style=" width:200px" id="cla_fid">
+                 <option value="{$id}">{$cla_name}</option>
+             </select>
+         </div>
+     </li>
+     <li class="clearfix"><label class="label_name col-xs-1"><i>*</i>链接地址：&nbsp;&nbsp;</label><div class="Add_content col-xs-11"><input name="cla_link" type="text"  class="col-xs-6"/></div></li>
+     <li class="clearfix">
+      <div class="col-xs-4">
+     <label class="label_name col-xs-3">是否显示：&nbsp;&nbsp;</label>
+    <div class="Add_content col-xs-9">
+    <label><input type="radio" name="checkbox" class="ace"  checked="checked" value="1"><span class="lbl">是</span></label>
+    <label><input type="radio" name="checkbox" class="ace"  value="0"><span class="lbl">否</span></label>
+    </div>   
+    </div>
+    </li>
+ </ul>
+ <div class="Button_operation btn_width">
+    <button class="btn button_btn bg-deep-blue"  type="button">保存并提交</button>
+    <button class="btn button_btn bg-gray" type="button">取消添加</button>
+ </div>
+</div>
+</div>
+<script type="text/javascript">
+    $('.bg-gray').click(function(){
+        var index=parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    });
+
+    $('.bg-deep-blue').click(function(){
+        var cla_name = $('input[name="cla_name"]').val();
+        var cla_link = $('input[name="cla_link"]').val();
+        var choose = $('input:radio[name="checkbox"]:checked').val();
+        var cla_fid = $("#cla_fid").val();
+        $.ajax({
+            url:"http://www.tpshop.com/Admin/Goods/addIfyinfo",
+            type:'POST',
+            async:true,
+            data:{
+                'cla_name':cla_name,
+                'cla_link':cla_link,
+                'cla_fid' :cla_fid,
+                'choose'  :choose
+            },
+            timeout:5000,
+            dataType:'json',
+            success:function(data){
+                console.log(data);
+                if(data.sess==1){
+                    layer.alert(data.mess,{
+                        btn: ['刷新页面'] //按钮
+                    }, function(){
+                        window.parent.location.reload();
+                        var index=parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                    });
+                }else {
+                    alert(data.mess);
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>
+

@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link href="http://www.tpshop.com/static/css/shop.css" type="text/css" rel="stylesheet" />
+<link href="http://www.tpshop.com/static/css/Sellerber.css" type="text/css"  rel="stylesheet" />
+<link href="http://www.tpshop.com/static/css/bkg_ui.css" type="text/css"  rel="stylesheet" />
+<link href="http://www.tpshop.com/static/font/css/font-awesome.min.css"  rel="stylesheet" type="text/css" />
+<script src="http://www.tpshop.com/static/js/jquery-1.9.1.min.js" type="text/javascript" ></script>
+<script type="text/javascript" src="http://www.tpshop.com/static/js/jquery.cookie.js"></script>
+<script src="http://www.tpshop.com/static/js/shopFrame.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/js/Sellerber.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/js/layer/layer.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/js/jquery.dataTables.min.js"></script>
+<script src="http://www.tpshop.com/static/js/jquery.dataTables.bootstrap.js"></script>
+<title>添加广告</title>
+</head>
+<!--[if lt IE 9]>
+  <script src="http://www.tpshop.com/staticjs/html5shiv.js"></script>
+  <script src="http://www.tpshop.com/staticjs/respond.min.js"></script>
+  <script src="http://www.tpshop.com/staticjs/css3-mediaqueries.js"  type="text/javascript"></script>
+  <![endif]-->
+<body>
+<div class="margin" id="page_style" style = "margin-top:30px;">
+	<form method="post" id="myform"  action="{:url('http://www.tpshop.com/admin/Advertise/advAdd')}" enctype="multipart/form-data" >
+	<div class="col-sm-9"  style = "margin-top:10px;">
+		<label class="col-sm-3 label_nameedit " >广告名称：</label>
+		<input type="text" name="adv_name" class="form-control" placeholder="广告名称">
+	</div>
+	<br/>
+		<div class="col-sm-9">
+		<label class="col-sm-3 label_nameedit ">图片：</label>
+		<div class="col-sm-9">
+			<div class="line"> <span class="span">
+                                <input  name="adv_img" type="file" id="viewfile"  class="inputstyle form-control">
+                                </span>
+			</div>
+		</div>
+			</div>
+	<div class="col-sm-9" style = "margin-top:10px;">
+		<div class="form-group">
+			<label class="col-sm-3 label_nameedit ">广告位置：</label>
+			<div class="col-sm-9">
+					<select class="form-control" style=" width:200px" name="gol_id" id="gol_id"></select>
+			</div>
+		</div>
+		<br/>
+	</div>
+		<div class="col-sm-9" style = "margin-top:10px;">
+			<div class="form-group">
+				<label class="col-sm-3 label_nameedit ">广告尺寸：</label>
+				<div class="col-sm-9">
+					<select class="form-control" style=" width:200px" name="gol_size" id="gol_size"></select>
+				</div>
+			</div>
+			<br/>
+		</div>
+	<div class="col-sm-9" style = "margin-top:10px;">
+		<label class="col-sm-3 label_nameedit ">广告链接：</label>
+		<input class="form-control" style=" width:200px" name="adv_link" id="adv_link" placeholder="链接地址"><span class="help-block">请输入正确的链接地址，这不是开玩笑</span>
+	</div>
+	<div class="col-sm-9" style = "margin-top:10px;">
+		<label class="col-sm-3 label_nameedit ">排序：</label>
+		<input type="text" name="adv_rank" class="form-control" placeholder="排序"> <span class="help-block">请输入排序序号</span>
+	</div>
+		<div class="col-sm-9" style = "margin-top:10px;">
+			<label class="col-sm-3 label_nameedit ">发布时间：</label>
+			<input type="datetime-local" name="adv_time" class="form-control" > <span class="help-block">请输入排序序号</span>
+		</div>
+		<div style="width:900px;position:absolute;top:340px;">
+			<script id="content" name="content" type="text/plain" >
+                    相关服务的简介
+             </script>
+			<div class="col-md-12">
+				<div class="form-group">
+					<div class="Button_operation" style="margin-left: 200px;">
+						<input  value="保存内容" class="btn button_btn bg-deep-blue" id ="up" type="submit">
+						<button class="btn button_btn bg-gray" id="down" type="button">取消</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<script src="http://www.tpshop.com/static/js/ueditor/ueditor.config.js"></script>
+<script src="http://www.tpshop.com/static/js/ueditor/ueditor.all.js"></script>
+<script type="text/javascript">
+	var ue = UE.getEditor('content');
+</script>
+</body>
+</html>
+<script>
+/*******滚动条*******/
+$("body").niceScroll({  
+	cursorcolor:"#888888",  
+	cursoropacitymax:1,  
+	touchbehavior:false,  
+	cursorwidth:"5px",  
+	cursorborder:"0",  
+	cursorborderradius:"5px"  
+});
+/**
+ * 加载广告分类
+ * */
+$(document).ready(function(){
+	$.ajax({
+		url: 'http://www.tpshop.com/admin/Advertise/sort_option',
+		type: 'POST', //GET
+		async: true,    //或false,是否异步
+		data: {},
+		dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+		success: function (data) {
+			for (var i = 0; i < data.length; i++) {
+				var name =  data[i]['sort_name'];
+				var id  = data[i]['sort_id'];
+				var width = data[i]['sort_width'];
+				var height = data[i]['sort_height'];
+				$("#gol_id").append("<option value=" + name + ">" + name + "</option>");
+				$("#gol_size").append("<option value=" + width +"X"+height+ ">" + width +"X"+height+ "</option>");
+			}
+		}
+	});
+});
+//$("#up").click(function(){
+//	var n = $("[name='adv_name']").val();
+//	var n1 = $("[name='gol_id']").val();
+//	var n2 = $("[name='adv_link']").val();
+//	var n3 = $("[name='adv_rank']").val();
+//	var n4 = $("[name='gol_size']").val();
+//	var myform = $("#myform").serialize();
+//	$.ajax({
+//		url: 'http://www.tpshop.com/admin/Advertise/advAdd?'+'&n='+n+'&n1='+n1+'&n2='+n2+'&n3='+n3+'&n4='+n4,
+//		type: 'POST',
+//		astype: 'true',
+//		cache:false,
+//		processData:false,
+//		contentType:false,
+//		data: new FormData($("#myform")[0]),
+//		success: function (data)
+//		{
+//			alert(data);
+//			if(data=='上传成功')
+//			{
+//			    window.location.href='http://www.tpshop.com/admin/Advertise/Advertising_list';
+//			}
+//		}
+//	});
+//});
+$("#down").click(function (){
+	window.location.href='';
+});
+</script>

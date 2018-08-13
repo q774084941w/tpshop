@@ -1,0 +1,32 @@
+*{
+    margin: 0px auto;
+}
+.main{
+    width: 430px;
+    height: 210px;
+    background-color: #af8b42;
+    text-align: center;
+}
+.let{
+    width: 100px;
+    height: 200px;
+    border: 1px solid blue;
+    float:left;
+    list-style-type: none;
+    cursor: pointer;
+}
+.cer{
+    width: 100px;
+    height: 200px;
+    border: 1px solid blue;
+    float:left;
+
+}
+.rit{
+    width: 100px;
+    height: 200px;
+    border: 1px solid blue;
+    float:left;
+    list-style-type: none;
+    cursor: pointer;
+}

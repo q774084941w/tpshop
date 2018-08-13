@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link href="http://www.tpshop.com/static/css/shop.css" type="text/css" rel="stylesheet" />
+<link href="http://www.tpshop.com/static/css/Sellerber.css" type="text/css"  rel="stylesheet" />
+<link href="http://www.tpshop.com/static/css/bkg_ui.css" type="text/css"  rel="stylesheet" />
+<link href="http://www.tpshop.com/static/font/css/font-awesome.min.css"  rel="stylesheet" type="text/css" />
+<link href="http://www.tpshop.com/static/layui/css/layui.css" rel="stylesheet">
+<script src="http://www.tpshop.com/static/js/jquery-1.9.1.min.js" type="text/javascript" ></script>
+<script type="text/javascript" src="http://www.tpshop.com/static/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="http://www.tpshop.com/static/layui/layui.js"></script>
+<script src="http://www.tpshop.com/static/js/shopFrame.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/js/Sellerber.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/js/layer/layer.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/js/laydate/laydate.js" type="text/javascript"></script>
+<script src="http://www.tpshop.com/static/js/jquery.dataTables.min.js"></script>
+<script src="http://www.tpshop.com/static/js/jquery.dataTables.bootstrap.js"></script>
+<script src = "http://www.tpshop.com/static/layui/layui.js"></script>
+<title>广告分类</title>
+    <script>
+        $(document).ready(function(){
+            var str = "1";
+            $(str.split(",")).each(function (i,dom){
+                $(":checkbox[value='"+dom+"']").prop("checked",true);
+                $(":checkbox[id='"+dom+"']").prop("checked",true);
+            });
+        });
+    </script>
+</head>
+<!--[if lt IE 9]>
+  <script src="http://www.tpshop.com/static/js/html5shiv.js"></script>
+  <script src="http://www.tpshop.com/static/js/respond.min.js"></script>
+  <script src="http://www.tpshop.com/static/js/css3-mediaqueries.js"  type="text/javascript"></script>
+  <![endif]-->
+<body>
+<div class="margin advertising" id="page_style">
+  <div class="operation clearfix">
+<button class="btn button_btn btn-danger" type="button" onclick=""><i class="fa fa-trash-o"></i>&nbsp;删除</button>
+<span class="submenu"><a href="javascript:void(0)" name="" onclick="add_AD_sort()" class="btn button_btn bg-deep-blue" title="添加分类"><i class="fa  fa-edit"></i>&nbsp;添加分类</a></span>
+<div class="search  clearfix">
+ <label class="label_name">搜索：</label><input name="" type="text"  class="form-control col-xs-6"/><button class="btn button_btn bg-deep-blue " onclick=""  type="button"><i class="fa  fa-search"></i>&nbsp;搜索</button>
+</div>
+</div>
+<!--分类管理-->
+<div class="sort_list">
+ <table class="table table_list table_striped table-bordered" id="sample-table">
+  <thead>
+  <tr>
+  <th width="30"><label><input type="checkbox" class="ace"><span class="lbl"></span></label></th>
+   <th width="100">排序</th>
+   <th>分类名称</th> 
+   <th>介绍</th>
+   <th>展示尺寸</th>
+   <th width="180">添加时间（最新）</th>
+   <th width="150">状态</th>
+   <th width="200">操作</th>
+   </tr>   
+  </thead>
+ {foreach name="result" id="vo"}
+  <tbody>
+   <tr>
+       <td class="center" width="50"><label><input type="checkbox"  class="ace"><span class="lbl"></span></label></td>
+       <td>{$vo.sort_id}</td>
+       <td>{$vo.sort_name}</td>
+       <td>{$vo.sort_description}</td>
+       <td>{$vo.sort_width}X{$vo.sort_height}</td>
+       <td>{$vo.sort_time}</td>
+       <td><input type="checkbox" name="ace1"  onclick="sort_state_change(this)" class="ace1" value="{$vo.sort_state}" ><input type="hidden"  value="{$vo.sort_id}"></td>
+       <td>
+           <p>
+               <a class="id"><button class="btn button_btn btn-danger" name="button">删除</button><input type="hidden"  value="{$vo.sort_id}"></a>
+               <a href="http://www.tpshop.com/admin/advertise/update_sort?name={$vo.sort_id}"><input type="submit" name="update" class="layui-btn layui-btn-sm layui-btn-normal" value="修改"><input type="hidden"  value="{$vo.sort_id}"></a>
+               <a href="http://www.tpshop.com/admin/advertise/Advertising_list?id={$vo.sort_name}"><input type="submit" name="skan"   class="layui-btn layui-btn-sm layui-btn-warm" value="查看"><input type="hidden"  value="{$vo.sort_id}"></a>
+           </p>
+       </td>
+   </tr>
+  </tbody>
+ {/foreach}
+ </table>
+</div>
+</div>
+<!--添加分类-->
+<div id="ad_sort" class="display">
+ <div class="add_style">
+  <ul>
+      <li class="clearfix"><label class="label_name col-xs-2">分类名称：&nbsp;&nbsp;</label><span class="cont_style col-xs-9"><input name="分类名称" type="text" id="form-field-1" class="col-xs-10 col-sm-5" style="width:450px"></span></li>
+      <li class="clearfix"><label class="label_name col-xs-2">展示尺寸：&nbsp;&nbsp;</label><span class="cont_style col-xs-9"><input name="width" type="text" id="form-field-3" class="col-xs-10 col-sm-5" style="width:100px" placeholder="宽度"> <input name="height" type="text" id="form-field-4" class="col-xs-10 col-sm-5" style="width:100px;margin-left:20px"placeholder="高度"></span></li>
+      <li class="clearfix"><label class="label_name col-xs-2">描&nbsp;&nbsp;述：&nbsp;&nbsp;</label><span class="cont_style col-xs-9"><textarea name="权限描述" class="form-control col-xs-12 col-sm-5" id="form_textarea" placeholder="" onkeyup="checkLength(this);"></textarea><span class="wordage">剩余字数：<span id="sy" style="color:Red;">200</span>字</span></span></li>
+  </ul>
+ </div>
+</div>
+</body>
+</html>
+<script>
+jQuery(function($) {
+				var oTable1 = $('#sample-table').dataTable( {
+				"data":dataSet,
+				"width":"100%",
+				"bLengthChange":false,
+				"iDisplayLength": 20,
+				//"columns" : _tableCols,
+				"aaSorting": [[ 1, "desc" ]],//默认第几个排序
+		        "bStateSave": true,//状态保存
+				"searching": false,
+		        "aoColumnDefs": [{"orderable":false,"aTargets":[0,2,3]
+				}]
+
+			   });
+
+				$('table th input:checkbox').on('click' , function(){
+					var that = this;
+					$(this).closest('table').find('tr > td:first-child input:checkbox')
+					.each(function(){
+						this.checked = that.checked;
+						$(this).closest('tr').toggleClass('selected');
+					});
+
+				});
+			});
+	/*产品-删除*/
+function picture_del(obj,id){
+	layer.confirm('确认要删除吗？',{icon:0,},function(index){
+		$(obj).parents("tr").remove();
+		layer.msg('已删除!',{icon:1,time:1000});
+	});
+}
+
+/***************添加分类***********/
+function add_AD_sort( ){
+    //捕获页
+    layer.open({
+        type: 1,
+        shade: false,
+        title: '添加分类',
+        area : ['750px' , ''],
+        btn:['添加','取消'],
+        content: $('#ad_sort'), //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+    });
+        $(".layui-layer-btn0").click(function(){
+            var name = $('#form-field-1').val();
+            var width = $("#form-field-3").val();
+            var height = $("#form-field-4").val();
+            var des = $("textarea[name=权限描述]").val();
+            $.ajax({
+                url:'http://www.tpshop.com/admin/advertise/Add_sort',
+                type:'POST',
+                async:'ture',
+                data:{
+                    name:name,
+                    width:width,
+                    height:height,
+                    des:des,
+                },
+                succcess:function (data){
+                    console.log(data);
+                }
+            });
+        });
+}
+/*删除分类*/
+$("button[name=button]").click(function(){
+    $.ajax({
+        url:"http://www.tpshop.com/admin/advertise/del_sort",
+        type:'POST',
+        async:'ture',
+        data:{
+            i:$(this).next().val(),
+        },
+        success:function(data){
+            alert(data);
+            if(data=='删除成功'){
+                window.location.href='';
+            }
+        }
+    });
+});
+    function sort_state_change(a) {
+        if ($(a).prop("checked") == true) {
+            $.ajax({
+                url: "http://www.tpshop.com/admin/advertise/sort_state",
+                type: 'POST',
+                async: 'ture',
+                data: {
+                    i: 1,
+                    id: $(a).next().val(),
+                },
+                success: function (data) {
+                 layer.open(
+                            {content:data,}
+                    );
+                }
+            });
+        } else if ($(a).prop("checked") == false) {
+            $.ajax({
+                url: "http://www.tpshop.com/admin/advertise/sort_state",
+                type: 'POST',
+                async: 'ture',
+                data: {
+                    i: 0,
+                    id: $(a).next().val(),
+                },
+                success: function (data) {
+                    layer.open(
+                            {content:data,}
+                    );
+                }
+            });
+        }
+    }
+</script>

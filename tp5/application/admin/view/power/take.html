@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="/static/css/Auth/take.css">
+    <title>用户登录</title>
+</head>
+
+<body class="login_style login-layout">
+<div class="main">
+    <table>
+        <tr>
+            <th>有</th>
+            <td>
+                <select multiple="multiple" class="let" id="have">
+                    {foreach $had as $val}
+                    <option value="{$val[0]}">{$val[1]}</option>
+                    {/foreach}
+                </select>
+            </td>
+            <td>
+                <div class="cer">
+                    <button>——></button>
+                    <button>====></button>
+                    <button><——</button>
+                    <button><====</button>
+                </div>
+            </td>
+            <td>
+                <select multiple="multiple" class="rit">
+                    {foreach $not as $val}
+                    <option value="{$val[0]}">{$val[1]}</option>
+                    {/foreach}
+                </select>
+            </td>
+            <th>无</th>
+        </tr>
+    </table>
+</div>
+<script src="/static/js/jquery-1.9.1.min.js" type="text/javascript" ></script>
+<script src="/static/js/auth/take.js"></script>
+</body>
+</html>

@@ -1,0 +1,494 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0 ,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>结算页面</title>
+
+		<link href="http://www.tpshop.com/static/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
+
+		<link href="http://www.tpshop.com/static/basic/css/demo.css" rel="stylesheet" type="text/css" />
+		<link href="http://www.tpshop.com/static/css/cartstyle.css" rel="stylesheet" type="text/css" />
+
+		<link href="http://www.tpshop.com/static/css/jsstyle.css" rel="stylesheet" type="text/css" />
+
+		<script type="text/javascript" src="http://www.tpshop.com/static/js/address.js"></script>
+		<script src="{:request()->domain()}/__JS__/layer/layer.js" type="text/javascript"></script>
+
+
+	</head>
+
+	<body>
+	{include file='index@incloude/heads'/}
+			<div class="clear"></div>
+			<div class="concent">
+				<!--地址 -->
+				<div class="paycont">
+					<div class="address">
+						<h3>确认收货地址 </h3>
+						<div class="control">
+							<div class="tc-btn createAddr theme-login am-btn am-btn-danger">使用新地址</div>
+						</div>
+						<div class="clear"></div>
+						<ul>
+							{volist  name='address' id='val' empty='您还没有地址信息'}
+							<div class="per-border"></div>
+							<li class="user-addresslist defaultAddr">
+								<input type="hidden" value="{$val.a_name},{$val.a_phone},{$val.a_address[0]},{$val.a_address[1]},{$val.a_address[2]},{$val.a_address[3]} " >
+								<div class="address-left">
+									<div class="user DefaultAddr">
+
+										<span class="buy-address-detail">
+                   <span class="buy-user">{$val.a_name} </span>
+										<span class="buy-phone">{$val.a_phone}</span>
+										</span>
+									</div>
+									<div class="default-address DefaultAddr">
+										<span class="buy-line-title buy-line-title-type">收货地址：</span>
+										<span class="buy--address-detail">
+								   <span class="province">{$val.a_address[0]}</span>
+										<span class="city">{$val.a_address[1]}</span>
+										<span class="dist">{$val.a_address[2]}</span>
+										<span class="street">{$val.a_address[3]}</span>
+										</span>
+
+										</span>
+									</div>
+								</div>
+								<div class="address-right">
+									<a href="../person/address.html">
+										<span class="am-icon-angle-right am-icon-lg"></span></a>
+								</div>
+								<div class="clear"></div>
+
+								<div class="new-addr-btn">
+									<span class="new-addr-bar hidden">|</span>
+									<a href="#">编辑</a>
+									<span class="new-addr-bar">|</span>
+									<a href="javascript:void(0);" onclick="delClick(this);">删除</a>
+								</div>
+
+							</li>
+							<div class="per-border"></div>
+
+								<div class="clear"></div>
+
+								<div class="new-addr-btn">
+									<a href="#">编辑</a>
+									<span class="new-addr-bar">|</span>
+									<a href="javascript:void(0);"  onclick="delClick(this);">删除</a>
+								</div>
+
+							</li>
+							{/volist}
+
+						</ul>
+
+						<div class="clear"></div>
+					</div>
+					<!--物流 -->
+					<div class="logistics">
+						<h3>选择物流方式</h3>
+						<ul class="op_express_delivery_hot">
+							<li data-value="yuantong" class="OP_LOG_BTN  "><i class="c-gap-right" style="background-position:0px -468px"></i><span>圆通</span></li>
+							<li data-value="shentong" class="OP_LOG_BTN  "><i class="c-gap-right" style="background-position:0px -1008px"></i><span>申通</span></li>
+							<li data-value="yunda" class="OP_LOG_BTN  "><i class="c-gap-right" style="background-position:0px -576px"></i><span>韵达</span></li>
+							<li data-value="zhongtong" class="OP_LOG_BTN op_express_delivery_hot_last "><i class="c-gap-right" style="background-position:0px -324px"></i><span>中通</span></li>
+							<li data-value="shunfeng" class="OP_LOG_BTN  op_express_delivery_hot_bottom"><i class="c-gap-right" style="background-position:0px -180px"></i><span>顺丰</span></li>
+						</ul>
+					</div>
+					<div class="clear"></div>
+
+					<!--支付方式-->
+					<div class="logistics">
+						<h3>选择支付方式</h3>
+						<ul class="pay-list">
+							<li class="pay card"><img src="http://www.tpshop.com/static/images/wangyin.jpg" />银联<span></span></li>
+							<li class="pay qq"><img src="http://www.tpshop.com/static/images/weizhifu.jpg" />微信<span></span></li>
+							<li class="pay taobao"><img src="http://www.tpshop.com/static/images/zhifubao.jpg" />支付宝<span></span></li>
+						</ul>
+					</div>
+					<div class="clear"></div>
+
+					<!--订单 -->
+					<div class="concent">
+						<div id="payTable">
+							<h3>确认订单信息</h3>
+							<div class="cart-table-th">
+								<div class="wp">
+
+									<div class="th th-item">
+										<div class="td-inner">商品信息</div>
+									</div>
+									<div class="th th-price">
+										<div class="td-inner">单价</div>
+									</div>
+									<div class="th th-amount">
+										<div class="td-inner">数量</div>
+									</div>
+									<div class="th th-sum">
+										<div class="td-inner">金额</div>
+									</div>
+									<div class="th th-oplist">
+										<div class="td-inner">配送方式</div>
+									</div>
+
+								</div>
+							</div>
+							<div class="clear"></div>
+							{volist name="shop_cat" id="cat"}
+							<tr class="item-list">
+								<div class="bundle  bundle-last">
+
+									<div class="bundle-main">
+										<ul class="item-content clearfix">
+											<div class="pay-phone">
+												<li class="td td-item">
+													<div class="item-pic">
+														<a href="#" class="J_MakePoint">
+															<img src="{$cat.spec_img}" class="itempic J_ItemImg" style="width:80px;height:80px"></a>
+													</div>
+													<div class="item-info">
+														<div class="item-basic-info">
+															<a href="#" class="item-title J_MakePoint" data-point="tbcart.8.11">{$cat.g_name}</a>
+														</div>
+													</div>
+												</li>
+												<li class="td td-info">
+													<div class="item-props">
+														<span class="sku-line">属性：{$cat.key}</span>
+													</div>
+												</li>
+												<li class="td td-price">
+													<div class="item-price price-promo-promo">
+														<div class="price-content">
+															<em class="J_Price price-now">{$cat.spec_price}</em>
+														</div>
+													</div>
+												</li>
+											</div>
+											<li class="td td-amount">
+												<div class="amount-wrapper ">
+													<div class="item-amount ">
+														<input type="hidden" name="shangpin" value="{$cat.spec_id},{$cat.g_id},{$cat.sto_count},{$cat.key},{$cat.g_name},{$cat.spec_img}" class="tp_good_someinfo">
+														<span class="phone-title">购买数量</span>
+														<div class="sl">
+															<input class="min am-btn" name="" type="button" value="-" />
+															<input class="text_box" name="" type="text" value="{$cat.good_num}" style="width:30px;" />
+															<input class="add am-btn" name="" type="button" value="+" />
+														</div>
+													</div>
+												</div>
+											</li>
+											<li class="td td-sum">
+												<div class="td-inner">
+													<em tabindex="0" class="J_ItemSum number">{$cat.total_money}</em>
+												</div>
+											</li>
+											<li class="td td-oplist">
+												<div class="td-inner">
+													<span class="phone-title">配送方式</span>
+													<div class="pay-logis">
+														<b class="sys_item_freprice">免邮费</b>
+													</div>
+												</div>
+											</li>
+
+										</ul>
+										<div class="clear"></div>
+									</div>
+									</div>
+							</tr>
+							{/volist}
+							<div class="clear"></div>
+							</div>
+							<div class="pay-total">
+						<!--留言-->
+							<div class="order-extra">
+								<div class="order-user-info">
+									<div id="holyshit257" class="memo">
+										<label>买家留言：</label>
+										<input type="text" title="选填,对本次交易的说明（建议填写已经和卖家达成一致的说明）" placeholder="选填,建议填写和卖家达成一致的说明" id="leave_word" class="memo-input J_MakePoint c2c-text-default memo-close">
+										<div class="msg hidden J-msg">
+											<p class="error">最多输入500个字符</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--优惠券 -->
+							<div class="clear"></div>
+							</div>
+							<!--含运费小计 -->
+							<div class="buy-point-discharge ">
+								<p class="price g_price ">
+									合计（含运费） <span>¥</span><em class="pay-sum"></em>
+								</p>
+							</div>
+
+							<!--信息 -->
+							<div class="order-go clearfix">
+								<div class="pay-confirm clearfix">
+									<div class="box">
+										<div tabindex="0" id="holyshit267" class="realPay"><em class="t">实付款：</em>
+											<span class="price g_price ">
+                                    <span>¥</span> <em class="style-large-bold-red " id="J_ActualFee"></em>
+											</span>
+										</div>
+										<div id="holyshit268" class="pay-address">
+											{volist name="address1" id ="vo2"}
+											<p class="buy-footer-address">
+												<span class="buy-line-title buy-line-title-type">寄送至：</span>
+												<span class="buy--address-detail">
+								   <span id="province">{$vo2.addr}</span>
+												<span id="city">{$vo2.addr1}</span>
+												<span id="dist">{$vo2.addr2}</span>
+												<span id="street">{$vo2.addr3}</span>
+												</span>
+												</span>
+											</p>
+											<p class="buy-footer-address">
+												<span class="buy-line-title">收货人：</span>
+												<span class="buy-address-detail">   
+                                         <span id="buy-user">{$vo2.name}</span>
+												<span id="buy-phone">{$vo2.phone}</span>
+												</span>
+											</p>
+										</div>
+										{/volist}
+									</div>
+									<div id="holyshit269" class="submitOrder">
+										<div class="go-btn-wrap">
+											<a  id="J_Go"  class="btn-go" tabindex="0" title="点击此按钮，提交订单">提交订单</a>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="clear"></div>
+					</div>
+				</div>
+		{include file='index@incloude/footer' /}
+			</div>
+			<div class="theme-popover-mask"></div>
+			<div class="theme-popover">
+
+				<!--标题 -->
+				<div class="am-cf am-padding">
+					<div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">新增地址</strong> / <small>Add address</small></div>
+				</div>
+				<hr/>
+
+				<div class="am-u-md-12">
+					<form class="am-form am-form-horizontal">
+
+						<div class="am-form-group">
+							<label for="user-name" class="am-form-label">收货人</label>
+							<div class="am-form-content">
+								<input type="text" id="user-name" placeholder="收货人">
+							</div>
+						</div>
+
+						<div class="am-form-group">
+							<label for="user-phone" class="am-form-label">手机号码</label>
+							<div class="am-form-content">
+								<input id="user-phone" placeholder="手机号必填" type="email">
+							</div>
+						</div>
+
+						<div class="am-form-group">
+							<label for="user-phone" class="am-form-label">所在地</label>
+							<div class="am-form-content address">
+								<select data-am-selected>
+									<option value="a">浙江省</option>
+									<option value="b">湖北省</option>
+								</select>
+								<select data-am-selected>
+									<option value="a">温州市</option>
+									<option value="b">武汉市</option>
+								</select>
+								<select data-am-selected>
+									<option value="a">瑞安区</option>
+									<option value="b">洪山区</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="am-form-group">
+							<label for="user-intro" class="am-form-label">详细地址</label>
+							<div class="am-form-content">
+								<textarea class="" rows="3" id="user-intro" placeholder="输入详细地址"></textarea>
+								<small>100字以内写出你的详细地址...</small>
+							</div>
+						</div>
+
+						<div class="am-form-group theme-poptit">
+							<div class="am-u-sm-9 am-u-sm-push-3">
+								<div class="am-btn am-btn-danger">保存</div>
+								<div class="am-btn am-btn-danger close">取消</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+			</div>
+
+			<div class="clear"></div>
+	</body>
+</html>
+<script>
+	$(document).ready(function()
+	{
+		for(var i=0;i<$(".J_ItemSum").length;i++)
+		{
+			sum1  = sum1 + parseInt($(".J_ItemSum").eq(i).text());
+		}
+		$(".pay-sum").text(sum1);
+		$("#J_ActualFee").text(sum1);
+	});
+	var sum1 =0;
+	var total_pri='';
+	var recei_method ='';
+	var pay_method = '';
+	$(".user-addresslist").click(function (){
+        var r_val='';
+	    r_val = $(this).children("input:eq(0)").attr("value");
+		$("#buy-user").text(r_val.split(',')[0]);
+		$("#buy-phone").text(r_val.split(',')[1]);
+		$("#province").text(r_val.split(',')[2]);
+		$("#city").text(r_val.split(',')[3]);
+		$("#dist").text(r_val.split(',')[4]);
+		$("#street").text(r_val.split(',')[5]);
+	});
+	$(" .OP_LOG_BTN").click(function (){
+		recei_method = $(this).text();
+	});
+	$(".pay").click(function(){
+		pay_method = $(this).text();
+	})
+	$(".min").click(function()
+	{
+		var num = $(this).next().val()-1;
+		var index = $(".min").index(this);
+		if(num>-1)
+		{
+			var pri =$(".price-now").eq(index).text();
+			var sum = num*parseInt(pri)+".00";
+			$(".J_ItemSum").eq(index).text(sum);
+		}
+		sum1=0;
+		for(var i=0;i<$(".J_ItemSum").length;i++)
+		{
+			sum1  = sum1 + parseInt($(".J_ItemSum").eq(i).text());
+		}
+		$(".pay-sum").text(sum1);
+		$("#J_ActualFee").text(sum1);
+
+	});
+	$(".text_box").change(function()
+	{
+		var num = $(this).val();
+		var index = $(".text_box").index(this);
+		var pri =$(".price-now").eq(index).text();
+		var sum = num*parseInt(pri)+".00";
+		$(".J_ItemSum").eq(index).text(sum);
+		sum1=0;
+		for(var i=0;i<$(".J_ItemSum").length;i++)
+		{
+			sum1  = sum1 + parseInt($(".J_ItemSum").eq(i).text());
+		}
+		$(".pay-sum").text(sum1);
+		$("#J_ActualFee").text(sum1);
+	});
+	$(".add").click(function()
+	{
+		var index = $(".add").index(this);
+		var num = parseInt($(this).prev().val())+1;
+		var pri =$(".price-now").eq(index).text();
+		var sum = num*parseInt(pri)+".00";
+		$(".J_ItemSum").eq(index).text(sum);
+		sum1=0;
+		for(var i=0;i<$(".J_ItemSum").length;i++)
+		{
+			sum1  = sum1 + parseInt($(".J_ItemSum").eq(i).text());
+		}
+		$(".pay-sum").text(sum1);
+		$("#J_ActualFee").text(sum1);
+	})
+	$("#J_Go").click(function ()
+	{
+        localStorage.clear();
+		var leave_word = $("#leave_word").val();
+		var recei_user   = $("#buy-user").text();
+		var recei_phone  = $("#buy-phone").text();
+		var recei_addr0 = $("#province").text();
+		var recei_addr1 = $("#city").text();
+		var recei_addr2 = $("#dist").text();
+		var recei_addr3 = $("#street").text();
+		var addr = recei_addr0+recei_addr1+recei_addr2+recei_addr3;
+//		alert(leave_word);
+		localStorage.setItem("pay_method",pay_method);//设置pay_method为"pay_method"支付方式
+		localStorage.setItem("recei_method",recei_method);//设置recei_method为"recei_method"物流方式
+		localStorage.setItem("leave_word",leave_word);//设置leave_word为"leave_word"留言
+		localStorage.setItem("recei_user",recei_user);//设置收货人
+		localStorage.setItem("recei_phone",recei_phone);//设置收货号码
+		localStorage.setItem("recei_addr",addr);//设置收货地址
+		var length = $(".J_ItemSum").length;
+		var arr = new Array();
+		var brr = new Array();
+		var crr = new Array();
+		for(var i=0;i<length;i++)
+		{
+				var index = $(".J_ItemSum").index(this);
+				var text_box = $(".text_box").eq(i).val();
+				var J_ItemSum = $(".J_ItemSum").eq(i).text();
+				var tp_good_someinfo = $(".tp_good_someinfo").eq(i).val();
+				localStorage.setItem("tp_good_someinfo"+i,tp_good_someinfo);//设置商品的部分信息；
+				localStorage.setItem("good_num"+i,text_box);//设置商品的部分信息；
+				localStorage.setItem("total_money"+i,J_ItemSum);//设置商品的部分信息；
+			    arr[i] = localStorage.getItem("tp_good_someinfo"+i);
+			    brr[i] = localStorage.getItem("good_num"+i);
+			    crr[i] = localStorage.getItem("total_money"+i);
+		};
+		$.ajax({
+			url:'http://www.tpshop.com/index/Order/order_create',
+			type:'POST',
+			astype:'true',
+			data:{
+				pay_method:localStorage.getItem("pay_method"),
+				recei_method:localStorage.getItem("recei_method"),
+				leave_word:localStorage.getItem("leave_word"),
+				recei_user:localStorage.getItem("recei_user"),
+				recei_phone:localStorage.getItem("recei_phone"),
+				recei_addr:localStorage.getItem("recei_addr"),
+				all_pay:sum1,
+				good_num:JSON.stringify( brr ),
+				tp_good_someinfo:JSON.stringify( arr ),
+				total_money:JSON.stringify( crr ),
+
+
+			},
+			success:function(data)
+			{
+				 date=data;
+//				console.log(data);
+                if(data!=0)
+                { layer.open({
+                    content: '交易成功'
+                });
+                    setTimeout("location.href='http://www.tpshop.com/index/Order/order_success?ordernum='+date",2000);
+
+				}else{
+                    layer.open({
+                        content:'请确认地址信息，支付方式，物流方式是否选择'
+                    });
+				}
+                localStorage.clear();
+
+			},
+		});
+	})
+</script>
